@@ -1,0 +1,47 @@
+<div class="facture-container">
+    <h2>Nouvelle Facture</h2>
+
+    <div class="form-group" *ngIf="!isClient">
+        <label>Client:</label>
+        <select [(ngModel)]="selectedClient">
+            <option [ngValue]="null">-- Sélectionner un Client --</option>
+            <option *ngFor="let client of clients" [ngValue]="client.id_client">
+                {{ client.nom_client }} {{ client.prenom_client }}
+            </option>
+        </select>
+    </div>
+
+    <div class="line-form">
+        <h4>Ajouter Produit</h4>
+        <select [(ngModel)]="newLine.id_produit">
+            <option [ngValue]="undefined">-- Produit --</option>
+            <option *ngFor="let p of produits" [ngValue]="p.id_produit">
+                {{ p.libelle_produit }} ({{ p.prix_unitaire }} DH) - Stock: {{ p.qte_stock }}
+            </option>
+        </select>
+        <input type="number" [(ngModel)]="newLine.qte" min="1" placeholder="Quantité">
+        <button (click)="addLine()">Ajouter Ligne</button>
+    </div>
+
+    <table *ngIf="lignes.length > 0">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let l of lignes; let i = index">
+                <td>{{ l.produit?.libelle_produit }}</td>
+                <td>{{ l.qte }}</td>
+                <td><button (click)="removeLine(i)">X</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="actions">
+        <button (click)="saveFacture()" [disabled]="!selectedClient || lignes.length === 0">Confirmer la
+            Commande</button>
+    </div>
+</div>

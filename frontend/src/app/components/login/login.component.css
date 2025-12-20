@@ -1,0 +1,190 @@
+/* Premium Glass Login */
+:host {
+    display: block;
+    height: 100vh;
+}
+
+.login-wrapper {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 20px;
+    background: var(--bg-dark);
+}
+
+/* Animated Gradient Background */
+.login-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.1), transparent 50%);
+    animation: pulseBg 10s infinite alternate;
+    z-index: 0;
+}
+
+@keyframes pulseBg {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    z-index: 1;
+    /* Use Premium Glass styles */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s;
+}
+
+.login-container:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.brand-logo {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1.5rem;
+    filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.3));
+}
+
+.panel-header h2 {
+    color: white;
+    text-align: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.cyber-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: all 0.2s;
+}
+
+.cyber-input:focus {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+    outline: none;
+}
+
+/* Button */
+.btn-cyber {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary) 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.btn-cyber:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.link-cyber {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link-cyber:hover {
+    text-decoration: underline;
+}
+
+/* Alert */
+.cyber-alert {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Dev Terminal */
+.dev-terminal {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.terminal-header {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.hint-row {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+}
+
+.param {
+    color: var(--text-muted);
+}
+
+.val {
+    color: white;
+    opacity: 0.8;
+}

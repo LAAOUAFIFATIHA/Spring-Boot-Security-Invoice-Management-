@@ -1,0 +1,54 @@
+<div class="dashboard-layout">
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="brand">MEDIA<span class="highlight">_TECH</span></div>
+            <div class="system-status">
+                <span class="status-dot"></span> SYSTEM_ONLINE
+            </div>
+        </div>
+
+        <ul class="cyber-nav">
+            <li class="nav-section">MODULES</li>
+            <li>
+                <a routerLink="clients" routerLinkActive="active">
+                    <span class="nav-icon">[C]</span> CLIENT_DB
+                </a>
+            </li>
+            <li>
+                <a routerLink="produits" routerLinkActive="active">
+                    <span class="nav-icon">[P]</span> INVENTORY
+                </a>
+            </li>
+            <li>
+                <a routerLink="factures" routerLinkActive="active">
+                    <span class="nav-icon">[F]</span> INVOICES
+                </a>
+            </li>
+            <li>
+                <a routerLink="factures/new" routerLinkActive="active">
+                    <span class="nav-icon">[+]</span> NEW_ENTRY
+                </a>
+            </li>
+            <li class="nav-section">SECURITY</li>
+            <li>
+                <a routerLink="dependencies" routerLinkActive="active" class="security-link">
+                    <span class="nav-icon">WARN</span> VULNERABILITY_SCAN
+                </a>
+            </li>
+            <li class="nav-spacer"></li>
+            <li>
+                <a (click)="logout()" class="nav-logout">
+                    <span class="nav-icon">&lt;&lt;</span> TERMINATE_SESSION
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            v2.5.0-CYBER
+        </div>
+    </nav>
+    <main class="content">
+        <!-- Optional: Breadcrumbs or header here -->
+        <router-outlet></router-outlet>
+    </main>
+</div>

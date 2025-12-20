@@ -1,0 +1,610 @@
+/* Dependency Dashboard - DARK NEON THEME */
+:host {
+    /* Local Palette Mapping */
+    --c-green: #00ff9d;
+    --c-orange: #ff6600;
+    --c-red: #ff0050;
+    --c-dim: #888;
+    --bg-dark: #000000;
+    --panel-bg: #050505;
+    --border-tech: 1px solid rgba(0, 255, 157, 0.3);
+}
+
+.dependency-dashboard {
+    padding: 2rem;
+    background: var(--bg-dark);
+    min-height: 100vh;
+    color: white;
+    font-family: 'Outfit', sans-serif;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background: var(--panel-bg);
+    padding: 1.5rem 2rem;
+    border-radius: 4px;
+    border: var(--border-tech);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+    border-left: 4px solid var(--c-green);
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: white;
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.btn-refresh {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    color: var(--c-green);
+    border: 1px solid var(--c-green);
+    border-radius: 2px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+}
+
+.btn-refresh:hover:not(:disabled) {
+    background: var(--c-green);
+    color: black;
+    box-shadow: 0 0 15px var(--c-green);
+}
+
+.btn-refresh:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #333;
+    color: #555;
+    box-shadow: none;
+}
+
+/* Loading & Error States */
+.loading-state,
+.error-state {
+    background: var(--panel-bg);
+    padding: 3rem;
+    border-radius: 4px;
+    text-align: center;
+    border: 1px dashed #333;
+    color: var(--c-dim);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(0, 255, 157, 0.1);
+    border-top-color: var(--c-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+    box-shadow: 0 0 15px rgba(0, 255, 157, 0.2);
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.error-state p {
+    color: var(--c-red);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.btn-retry {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: 1px solid var(--c-red);
+    color: var(--c-red);
+    border-radius: 2px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.btn-retry:hover {
+    background: var(--c-red);
+    color: white;
+    box-shadow: 0 0 15px var(--c-red);
+}
+
+/* Summary Cards */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.summary-card {
+    background: var(--panel-bg);
+    padding: 1.5rem;
+    border-radius: 4px;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.summary-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--c-green);
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.1);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+.card-content h3 {
+    margin: 0;
+    font-size: 2rem;
+    color: white;
+    font-family: 'Outfit', sans-serif;
+}
+
+.card-content p {
+    margin: 0.25rem 0 0;
+    color: var(--c-dim);
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+}
+
+/* Status Borders */
+.summary-card.vulnerable {
+    border-left: 4px solid var(--c-red);
+}
+
+.summary-card.generated {
+    border-left: 4px solid var(--c-green);
+}
+
+/* Risk Level Colors (Overrides) */
+.risk-critical,
+.summary-card.risk-critical {
+    border-left: 4px solid var(--c-red);
+}
+
+.risk-high,
+.summary-card.risk-high {
+    border-left: 4px solid var(--c-orange);
+}
+
+.risk-medium,
+.summary-card.risk-medium {
+    border-left: 4px solid #facc15;
+}
+
+/* Yellow kept for medium? No, stick to orange variants or keep yellow for medium distinct from high orange. Let's use faded orange or yellow. User said "Change yellow by orange" - okay, make medium Orange too? Or a lighter orange. Let's keep medium as a lighter orange/yellow mix or just use Orange strictly. I'll make High=Red-Orange, Medium=Orange. */
+.risk-medium,
+.summary-card.risk-medium {
+    border-left: 4px solid #ff9900;
+}
+
+.risk-low,
+.summary-card.risk-low {
+    border-left: 4px solid var(--c-green);
+}
+
+.risk-none,
+.summary-card.risk-none {
+    border-left: 4px solid #333;
+}
+
+/* Vulnerability Breakdown */
+.vulnerability-breakdown {
+    background: var(--panel-bg);
+    padding: 2rem;
+    border-radius: 4px;
+    border: var(--border-tech);
+    margin-bottom: 2rem;
+}
+
+.vulnerability-breakdown h2 {
+    margin: 0 0 1.5rem;
+    color: white;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.severity-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.severity-card {
+    padding: 1.5rem;
+    border-radius: 4px;
+    text-align: center;
+    background: #0a0a0a;
+    border: 1px solid #333;
+    transition: 0.3s;
+}
+
+.severity-card:hover {
+    transform: translateY(-3px);
+}
+
+.severity-card.critical {
+    border-color: var(--c-red);
+    color: var(--c-red);
+    text-shadow: 0 0 10px rgba(255, 0, 80, 0.5);
+}
+
+.severity-card.high {
+    border-color: var(--c-orange);
+    color: var(--c-orange);
+    text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+}
+
+.severity-card.medium {
+    border-color: #ff9900;
+    color: #ff9900;
+}
+
+.severity-card.low {
+    border-color: var(--c-green);
+    color: var(--c-green);
+}
+
+.severity-count {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.severity-label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+}
+
+/* Filters */
+.filters-section {
+    background: var(--panel-bg);
+    padding: 1.5rem;
+    border-radius: 4px;
+    border: var(--border-tech);
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--c-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+}
+
+.filter-select,
+.search-input {
+    width: 100%;
+    padding: 0.75rem;
+    background: #000;
+    border: 1px solid #333;
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.filter-select:focus,
+.search-input:focus {
+    outline: none;
+    border-color: var(--c-orange);
+    box-shadow: 0 0 10px rgba(255, 102, 0, 0.3);
+}
+
+/* Dependencies Table */
+.dependencies-section {
+    background: var(--panel-bg);
+    padding: 2rem;
+    border-radius: 4px;
+    border: var(--border-tech);
+    margin-bottom: 2rem;
+}
+
+.dependencies-section h2 {
+    margin: 0 0 1.5rem;
+    color: white;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.dependencies-table {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 4px;
+}
+
+thead {
+    background: #080808;
+}
+
+th {
+    padding: 1rem;
+    text-align: left;
+    color: var(--c-orange);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #333;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+tbody tr {
+    border-bottom: 1px solid #222;
+}
+
+tbody tr:hover td {
+    background: rgba(0, 255, 157, 0.05);
+    color: white;
+}
+
+td {
+    padding: 1rem;
+    background: #0a0a0a;
+    color: var(--c-dim);
+    transition: 0.2s;
+    border-bottom: 1px solid #111;
+}
+
+.artifact-name {
+    font-weight: bold;
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.group-id {
+    font-size: 0.8rem;
+    color: #555;
+}
+
+.version-badge {
+    background: #111;
+    border: 1px solid #333;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.category-badge {
+    background: #111;
+    border: 1px solid var(--c-green);
+    color: var(--c-green);
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+/* Risk Badges */
+.risk-badge {
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border: 1px solid transparent;
+    text-transform: uppercase;
+}
+
+.risk-badge.risk-critical {
+    color: var(--c-red);
+    border-color: var(--c-red);
+    background: rgba(255, 0, 80, 0.1);
+}
+
+.risk-badge.risk-high {
+    color: var(--c-orange);
+    border-color: var(--c-orange);
+    background: rgba(255, 102, 0, 0.1);
+}
+
+.risk-badge.risk-medium {
+    color: #ff9900;
+    border-color: #ff9900;
+    background: rgba(255, 153, 0, 0.1);
+}
+
+.risk-badge.risk-low {
+    color: var(--c-green);
+    border-color: var(--c-green);
+    background: rgba(0, 255, 157, 0.1);
+}
+
+.risk-badge.risk-none {
+    color: var(--c-dim);
+    border-color: #333;
+    background: #111;
+}
+
+.vuln-count {
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.vuln-count:not(.safe) {
+    background: rgba(255, 0, 80, 0.2);
+    color: var(--c-red);
+    border: 1px solid var(--c-red);
+}
+
+.vuln-count.safe {
+    background: rgba(0, 255, 157, 0.1);
+    color: var(--c-green);
+    border: 1px solid var(--c-green);
+}
+
+.btn-details {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    color: var(--c-green);
+    border: 1px solid var(--c-green);
+    border-radius: 2px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.75rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.btn-details:hover {
+    background: var(--c-green);
+    color: black;
+    box-shadow: 0 0 10px var(--c-green);
+}
+
+/* Vulnerability Details */
+.vulnerability-details-row td {
+    background: #080808 !important;
+    border: 1px solid #222;
+    padding: 0;
+}
+
+.vulnerability-details {
+    padding: 2rem;
+}
+
+.vulnerability-item {
+    background: #000;
+    border-left: 4px solid;
+    padding: 1rem;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    border: 1px solid #222;
+}
+
+/* Severity Borders */
+.vulnerability-item.severity-critical {
+    border-left-color: var(--c-red);
+}
+
+.vulnerability-item.severity-high {
+    border-left-color: var(--c-orange);
+}
+
+.vulnerability-item.severity-medium {
+    border-left-color: #ff9900;
+}
+
+.vulnerability-item.severity-low {
+    border-left-color: var(--c-green);
+}
+
+.vuln-cve {
+    color: var(--c-orange);
+    font-weight: bold;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.vuln-description {
+    color: var(--c-dim);
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+.vuln-link {
+    color: var(--c-green);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+}
+
+.vuln-link:hover {
+    border-bottom-color: var(--c-green);
+    text-shadow: 0 0 5px var(--c-green);
+}
+
+/* Security Tips */
+.security-tips {
+    background: var(--panel-bg);
+    padding: 2rem;
+    border-radius: 4px;
+    border: var(--border-tech);
+}
+
+.security-tips h3 {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+.tip-card {
+    background: #0a0a0a;
+    padding: 1.5rem;
+    border-radius: 4px;
+    border: 1px solid #333;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.tip-card:hover {
+    border-color: var(--c-green);
+    box-shadow: 0 0 15px rgba(0, 255, 157, 0.1);
+}
+
+.tip-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 5px var(--c-green));
+}
+
+.tip-card h4 {
+    color: white;
+    margin-bottom: 0.5rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.tip-card p {
+    color: var(--c-dim);
+    font-size: 0.85rem;
+}
+
+/* No Results */
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    color: var(--c-dim);
+    font-family: 'JetBrains Mono', monospace;
+    border: 1px dashed #333;
+    background: #050505;
+}

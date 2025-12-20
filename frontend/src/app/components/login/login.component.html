@@ -1,0 +1,63 @@
+<div class="login-wrapper">
+
+  <div class="login-container cyber-panel">
+    <div class="panel-header">
+      <div class="brand-logo">
+        <!-- Simplified Logo -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#00ff9d" stroke-width="2">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" />
+          <path d="M2 17L12 22L22 17" />
+          <path d="M2 12L12 17L22 12" />
+        </svg>
+      </div>
+      <h2 *ngIf="!mode">Connexion</h2>
+      <h2 *ngIf="mode">Espace {{ mode | titlecase }}</h2>
+    </div>
+
+    <div *ngIf="error" class="cyber-alert error">
+      <span>{{ error }}</span>
+    </div>
+
+    <form (ngSubmit)="login()" class="cyber-form">
+      <div class="form-group">
+        <label for="username">Nom d'utilisateur</label>
+        <div class="input-wrapper">
+          <input type="text" id="username" [(ngModel)]="credentials.username" name="username" class="cyber-input"
+            placeholder="Ex: admin" required autocomplete="off">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="input-wrapper">
+          <input type="password" id="password" [(ngModel)]="credentials.password" name="password" class="cyber-input"
+            placeholder="Votre mot de passe" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-cyber full-width">
+        <span class="btn-text">Se connecter</span>
+      </button>
+    </form>
+
+    <div class="register-link">
+      <span>Pas encore de compte ?</span> <a routerLink="/register" class="link-cyber">Créer un compte</a>
+    </div>
+
+    <!-- Dev Hints Professional -->
+    <div class="dev-terminal">
+      <div class="terminal-header">Identifiants de test</div>
+      <div class="terminal-content">
+        <div class="hint-row">
+          <span class="param">Admin:</span> <span class="val">fatihaa / fatiha1233</span>
+        </div>
+        <div class="hint-row">
+          <span class="param">Vendeur:</span> <span class="val">vendeur / vendeur123</span>
+        </div>
+        <div class="hint-row">
+          <span class="param">Client:</span> <span class="val">c1 / 1234567</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

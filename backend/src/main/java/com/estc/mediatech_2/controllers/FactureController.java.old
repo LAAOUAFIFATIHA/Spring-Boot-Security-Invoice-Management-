@@ -1,0 +1,76 @@
+package com.estc.mediatech_2.controllers;
+
+import com.estc.mediatech_2.dao.FactureDao;
+import com.estc.mediatech_2.dto.FactureRequestDto;
+import com.estc.mediatech_2.dto.FactureResponseDto;
+import com.estc.mediatech_2.models.FactureEntity;
+import com.estc.mediatech_2.service.FactureService;
+import com.estc.mediatech_2.service.PdfService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.ByteArrayInputStream;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/factures")
+@RequiredArgsConstructor
+public class FactureController {
+
+    private final FactureService factureService;
+    private final PdfService pdfService;
+    private final FactureDao factureDao; // Needed to fetch entity for PDF generation as DTO doesn't have all entity
+                                         // logical links usually or simplified
+
+    @PostMapping
+    public ResponseEntity<FactureResponseDto> createFacture(@RequestBody FactureRequestDto request) {
+        return ResponseEntity.ok(factureService.createFacture(request));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FactureResponseDto>> getAllFactures() {
+        return ResponseEntity.ok(factureService.getAllFactures());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<FactureResponseDto> getFacture(@PathVariable Long id) {
+        FactureResponseDto facture = factureService.getFacture(id);
+        return facture != null ? ResponseEntity.ok(facture) : ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<FactureResponseDto> updateStatus(@PathVariable Long id,
+            @RequestBody Map<String, String> statusMap) {
+        String status = statusMap.get("status");
+        return ResponseEntity.ok(factureService.updateStatus(id, status));
+    }
+
+    @GetMapping("/{id}/pdf")
+    public ResponseEntity<InputStreamResource> generatePdf(@PathVariable Long id) {
+        FactureEntity facture = factureDao.findById(id).orElse(null);
+        if (facture == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Vérification du statut pour le téléchargement
+        if (!"VALIDEE".equals(facture.getStatus())) {
+            return ResponseEntity.status(403).build(); // Forbidden si pas validée
+        }
+
+        ByteArrayInputStream bis = pdfService.factureReport(facture);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=facture_" + facture.getRef_facture() + ".pdf");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
+    }
+}

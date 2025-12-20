@@ -1,0 +1,261 @@
+<div class="dependency-dashboard">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h1>📦 Analyse des Dépendances et Vulnérabilités</h1>
+        <button class="btn-refresh" (click)="refresh()" [disabled]="loading">
+            <span *ngIf="!loading">🔄 Actualiser</span>
+            <span *ngIf="loading">⏳ Chargement...</span>
+        </button>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading && !report" class="loading-state">
+        <div class="spinner"></div>
+        <p>Analyse des dépendances en cours...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="error-state">
+        <p>❌ {{ error }}</p>
+        <button class="btn-retry" (click)="loadDependencyReport()">Réessayer</button>
+    </div>
+
+    <!-- Main Content -->
+    <div *ngIf="report && !loading" class="dashboard-content">
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="summary-card">
+                <div class="card-icon">📦</div>
+                <div class="card-content">
+                    <h3>{{ report.totalDependencies }}</h3>
+                    <p>Dépendances Totales</p>
+                </div>
+            </div>
+
+            <div class="summary-card vulnerable">
+                <div class="card-icon">⚠️</div>
+                <div class="card-content">
+                    <h3>{{ report.vulnerableDependencies }}</h3>
+                    <p>Dépendances Vulnérables</p>
+                </div>
+            </div>
+
+            <div class="summary-card" [ngClass]="getOverallRiskClass()">
+                <div class="card-icon">🎯</div>
+                <div class="card-content">
+                    <h3>{{ report.overallRiskLevel }}</h3>
+                    <p>Niveau de Risque Global</p>
+                </div>
+            </div>
+
+            <div class="summary-card generated">
+                <div class="card-icon">🕐</div>
+                <div class="card-content">
+                    <h3>{{ report.generatedAt | date: 'short' }}</h3>
+                    <p>Dernière Analyse</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vulnerability Breakdown -->
+        <div class="vulnerability-breakdown">
+            <h2>🔍 Répartition des Vulnérabilités</h2>
+            <div class="severity-cards">
+                <div class="severity-card critical">
+                    <div class="severity-count">{{ report.criticalCount }}</div>
+                    <div class="severity-label">CRITICAL</div>
+                </div>
+                <div class="severity-card high">
+                    <div class="severity-count">{{ report.highCount }}</div>
+                    <div class="severity-label">HIGH</div>
+                </div>
+                <div class="severity-card medium">
+                    <div class="severity-count">{{ report.mediumCount }}</div>
+                    <div class="severity-label">MEDIUM</div>
+                </div>
+                <div class="severity-card low">
+                    <div class="severity-count">{{ report.lowCount }}</div>
+                    <div class="severity-label">LOW</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <div class="filter-group">
+                <label>Catégorie:</label>
+                <select [(ngModel)]="selectedCategory" class="filter-select">
+                    <option value="all">Toutes</option>
+                    <option value="compile">Compile</option>
+                    <option value="runtime">Runtime</option>
+                    <option value="test">Test</option>
+                    <option value="provided">Provided</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Niveau de Risque:</label>
+                <select [(ngModel)]="selectedRiskLevel" class="filter-select">
+                    <option value="all">Tous</option>
+                    <option value="CRITICAL">Critical</option>
+                    <option value="HIGH">High</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="LOW">Low</option>
+                    <option value="NONE">None</option>
+                </select>
+            </div>
+
+            <div class="filter-group search-group">
+                <label>Rechercher:</label>
+                <input type="text" [(ngModel)]="searchTerm" placeholder="Nom de la dépendance..." class="search-input">
+            </div>
+        </div>
+
+        <!-- Dependencies Table -->
+        <div class="dependencies-section">
+            <h2>📚 Liste des Dépendances ({{ getFilteredDependencies().length }})</h2>
+
+            <div class="dependencies-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Artifact</th>
+                            <th>Version</th>
+                            <th>Catégorie</th>
+                            <th>Risque</th>
+                            <th>Vulnérabilités</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let dep of getFilteredDependencies()">
+                            <tr [ngClass]="getRiskClass(dep.riskLevel)">
+                                <td>
+                                    <div class="artifact-info">
+                                        <div class="artifact-name">{{ dep.artifactId }}</div>
+                                        <div class="group-id">{{ dep.groupId }}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="version-badge">{{ dep.version }}</span>
+                                </td>
+                                <td>
+                                    <span class="category-badge">{{ dep.category }}</span>
+                                </td>
+                                <td>
+                                    <span class="risk-badge" [ngClass]="getRiskClass(dep.riskLevel)">
+                                        {{ dep.riskLevel }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="vuln-count" *ngIf="dep.vulnerabilityCount > 0">
+                                        ⚠️ {{ dep.vulnerabilityCount }}
+                                    </span>
+                                    <span class="vuln-count safe" *ngIf="dep.vulnerabilityCount === 0">
+                                        ✅ 0
+                                    </span>
+                                </td>
+                                <td>
+                                    <button *ngIf="dep.vulnerabilityCount > 0" class="btn-details"
+                                        (click)="toggleDetails(dep)">
+                                        {{ isDetailsShown(dep) ? '▼ Masquer' : '▶ Détails' }}
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Vulnerability Details Row -->
+                            <tr *ngIf="isDetailsShown(dep) && dep.vulnerabilities.length > 0"
+                                class="vulnerability-details-row">
+                                <td colspan="6">
+                                    <div class="vulnerability-details">
+                                        <h4>🔐 Vulnérabilités Détectées</h4>
+                                        <div *ngFor="let vuln of dep.vulnerabilities" class="vulnerability-item"
+                                            [ngClass]="getSeverityClass(vuln.severity)">
+                                            <div class="vuln-header">
+                                                <span class="vuln-cve">{{ vuln.cveId }}</span>
+                                                <span class="vuln-severity" [ngClass]="getSeverityClass(vuln.severity)">
+                                                    {{ vuln.severity }}
+                                                </span>
+                                                <span class="vuln-score">CVSS: {{ vuln.cvssScore }}</span>
+                                            </div>
+                                            <p class="vuln-description">{{ vuln.description }}</p>
+                                            <div class="vuln-footer">
+                                                <div class="vuln-info">
+                                                    <strong>Versions affectées:</strong> {{ vuln.affectedVersions }}
+                                                </div>
+                                                <div class="vuln-info">
+                                                    <strong>Version corrigée:</strong> {{ vuln.fixedVersion }}
+                                                </div>
+                                                <a [href]="vuln.reference" target="_blank" class="vuln-link">
+                                                    📄 Voir détails
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+
+                <!-- No Results -->
+                <div *ngIf="getFilteredDependencies().length === 0" class="no-results">
+                    <p>Aucune dépendance ne correspond aux critères de filtre.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Recommendations -->
+        <div class="recommendations-section" *ngIf="report.vulnerableDependencies > 0">
+            <h2>💡 Recommandations de Sécurité</h2>
+            <div class="recommendation-card">
+                <div class="rec-icon">⚠️</div>
+                <div class="rec-content">
+                    <h3>Action Requise</h3>
+                    <p>Vous avez <strong>{{ report.vulnerableDependencies }}</strong> dépendances vulnérables.</p>
+                    <ul>
+                        <li *ngIf="report.criticalCount > 0">
+                            🚨 <strong>{{ report.criticalCount }}</strong> vulnérabilités CRITIQUES nécessitent une
+                            attention immédiate
+                        </li>
+                        <li *ngIf="report.highCount > 0">
+                            ⚠️ <strong>{{ report.highCount }}</strong> vulnérabilités de niveau HIGH doivent être
+                            traitées rapidement
+                        </li>
+                        <li>Mettez à jour vos dépendances vers les versions corrigées mentionnées ci-dessus</li>
+                        <li>Consultez les CVE pour plus d'informations sur les risques</li>
+                        <li>Testez votre application après chaque mise à jour</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Tips -->
+        <div class="security-tips">
+            <h3>🛡️ Bonnes Pratiques OWASP</h3>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">📋</div>
+                    <h4>Inventaire</h4>
+                    <p>Maintenez un inventaire à jour de toutes les dépendances</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">🔄</div>
+                    <h4>Mises à jour</h4>
+                    <p>Mettez régulièrement à jour vos dépendances</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">🔍</div>
+                    <h4>Surveillance</h4>
+                    <p>Surveillez les nouvelles vulnérabilités (CVE, NVD)</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">🧪</div>
+                    <h4>Tests</h4>
+                    <p>Testez après chaque mise à jour de dépendance</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

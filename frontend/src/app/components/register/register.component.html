@@ -1,0 +1,66 @@
+<div class="register-wrapper">
+    <div class="cyber-grid-bg"></div>
+
+    <div class="register-container cyber-panel">
+        <div class="panel-header">
+            <h2>NEW_USER_REGISTRATION</h2>
+        </div>
+
+        <div *ngIf="error" class="cyber-alert error">
+            <span class="prefix">ERROR:</span> {{ error }}
+        </div>
+
+        <div *ngIf="success" class="cyber-alert success">
+            <span class="prefix">SUCCESS:</span> {{ success }}
+        </div>
+
+        <form (ngSubmit)="register()" class="cyber-form">
+            <div class="form-group">
+                <label for="role">ACCESS_LEVEL</label>
+                <div class="input-wrapper">
+                    <select id="role" [(ngModel)]="selectedRole" name="role" class="cyber-input">
+                        <option value="client">CLIENT_USER</option>
+                        <option value="vendeur">VENDOR_AGENT</option>
+                    </select>
+                    <div class="input-scanline"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="username">USER_HANDLE</label>
+                <div class="input-wrapper">
+                    <input type="text" id="username" [(ngModel)]="registerData.username" name="username"
+                        class="cyber-input" placeholder="ENTER_USERNAME" required />
+                    <div class="input-scanline"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">SECRET_KEY</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" [(ngModel)]="registerData.password" name="password"
+                        class="cyber-input" placeholder="MIN_6_CHARS" required />
+                    <div class="input-scanline"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">VERIFY_KEY</label>
+                <div class="input-wrapper">
+                    <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword"
+                        class="cyber-input" placeholder="CONFIRM_PASSWORD" required />
+                    <div class="input-scanline"></div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-cyber full-width">
+                SUBMIT_CLEARANCE
+                <div class="btn-glitch"></div>
+            </button>
+        </form>
+
+        <div class="login-link">
+            <span>ALREADY_REGISTERED?</span> <a routerLink="/login" class="link-cyber">ACCESS_SYSTEM</a>
+        </div>
+    </div>
+</div>

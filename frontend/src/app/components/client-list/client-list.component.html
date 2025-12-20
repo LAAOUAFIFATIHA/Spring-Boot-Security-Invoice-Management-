@@ -1,0 +1,42 @@
+<div class="list-container">
+    <h2>Gestion des Clients</h2>
+
+    <div class="search-bar">
+        <input type="text" [(ngModel)]="searchTel" placeholder="Chercher par téléphone">
+        <button (click)="search()">Chercher</button>
+        <button (click)="searchTel=''; loadClients()">Reset</button>
+    </div>
+
+    <div class="form-container">
+        <h3>{{ isEditing ? 'Modifier' : 'Ajouter' }} un Client</h3>
+        <input [(ngModel)]="newClient.nom_client" placeholder="Nom">
+        <input [(ngModel)]="newClient.prenom_client" placeholder="Prénom">
+        <input [(ngModel)]="newClient.telephone" placeholder="Téléphone">
+        <button (click)="saveClient()">Valider</button>
+        <button (click)="resetForm()" *ngIf="isEditing">Annuler</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Téléphone</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let client of clients">
+                <td>{{ client.id_client }}</td>
+                <td>{{ client.nom_client }}</td>
+                <td>{{ client.prenom_client }}</td>
+                <td>{{ client.telephone }}</td>
+                <td>
+                    <button (click)="editClient(client)">Edit</button>
+                    <button (click)="deleteClient(client.id_client!)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

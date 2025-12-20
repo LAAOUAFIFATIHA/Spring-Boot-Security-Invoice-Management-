@@ -1,0 +1,54 @@
+<div class="list-container">
+    <div class="header">
+        <h2 class="section-title">SYSTEM_INVOICES</h2>
+        <!-- Hide Create button for Admin -->
+        <button *ngIf="!isAdmin" routerLink="/factures/create" class="btn-cyber">
+            <span class="icon">[+]</span> NEW_INVOICE
+        </button>
+    </div>
+
+    <div class="cyber-panel">
+        <table>
+            <thead>
+                <tr>
+                    <th>Ref</th>
+                    <th>Date</th>
+                    <th>Client</th>
+                    <!-- Show Vendeur column mostly for Admin/Vendeur context -->
+                    <th>Vendeur</th>
+                    <th>Total</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let f of factures">
+                    <td>{{ f.ref_facture }}</td>
+                    <td>{{ f.date_facture | date:'short' }}</td>
+                    <td>{{ f.client?.nom_client }} {{ f.client?.prenom_client }}</td>
+                    <td>
+                        <span *ngIf="f.vendeur">{{ f.vendeur?.username }}</span>
+                        <span *ngIf="!f.vendeur" class="empty">-</span>
+                    </td>
+                    <td><strong>{{ calculateTotal(f) | currency:'EUR':'symbol':'1.2-2' }}</strong></td>
+                    <td>
+                        <span class="status-badge" [ngClass]="f.status?.toLowerCase()">{{ f.status }}</span>
+                    </td>
+                    <td>
+                        <!-- Actions available for Admin (Validate/Reject) -->
+                        <div class="actions" *ngIf="isAdmin && (f.status === 'EN_ATTENTE' || !f.status)">
+                            <button class="btn-validate" (click)="updateStatus(f, 'VALIDEE')">✅</button>
+                            <button class="btn-reject" (click)="updateStatus(f, 'REFUSEE')">❌</button>
+                        </div>
+                        <span *ngIf="f.status === 'VALIDEE' || f.status === 'REFUSEE'" class="locked">
+                            Traitée
+                        </span>
+                    </td>
+                </tr>
+                <tr *ngIf="factures.length === 0">
+                    <td colspan="7" class="no-data">Aucune facture trouvée.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

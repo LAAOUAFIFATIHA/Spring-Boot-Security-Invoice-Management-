@@ -1,0 +1,162 @@
+/* Cyber Sidebar Styles */
+
+:host {
+    display: block;
+    height: 100vh;
+    --nav-width: 260px;
+}
+
+.dashboard-layout {
+    display: flex;
+    height: 100%;
+}
+
+.sidebar {
+    width: var(--nav-width);
+    background: #080808;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.sidebar-header {
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -1px;
+    margin-bottom: 0.5rem;
+}
+
+.highlight {
+    color: #00ff9d;
+}
+
+.system-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: #00ff9d;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.8;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background: #00ff9d;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #00ff9d;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.cyber-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+}
+
+.nav-section {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #555;
+    margin: 1.5rem 0 0.5rem;
+    padding-left: 10px;
+}
+
+.cyber-nav li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 10px;
+    text-decoration: none;
+    color: #888;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    border-left: 2px solid transparent;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.cyber-nav li a:hover,
+.cyber-nav li a.active {
+    background: rgba(255, 255, 255, 0.03);
+    color: white;
+    border-left-color: #00ff9d;
+}
+
+.cyber-nav li a:hover .nav-icon,
+.cyber-nav li a.active .nav-icon {
+    color: #00ff9d;
+}
+
+.nav-icon {
+    color: #444;
+    transition: color 0.2s;
+    font-weight: bold;
+}
+
+.security-link:hover,
+.security-link.active {
+    border-left-color: #facc15 !important;
+}
+
+.security-link:hover .nav-icon,
+.security-link.active .nav-icon {
+    color: #facc15 !important;
+}
+
+.nav-spacer {
+    height: 2rem;
+}
+
+.nav-logout {
+    color: #ff0055 !important;
+}
+
+.nav-logout:hover {
+    background: rgba(255, 0, 85, 0.1) !important;
+    border-left-color: #ff0055 !important;
+}
+
+.nav-logout .nav-icon {
+    color: #ff0055 !important;
+}
+
+.sidebar-footer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #333;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+    background: #050505;
+    background-image:
+        radial-gradient(circle at 50% 50%, rgba(0, 255, 157, 0.02) 0%, transparent 50%);
+}

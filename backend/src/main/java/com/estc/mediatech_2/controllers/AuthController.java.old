@@ -1,0 +1,109 @@
+package com.estc.mediatech_2.controllers;
+
+import com.estc.mediatech_2.dao.ClientDao;
+import com.estc.mediatech_2.dao.UserDao;
+import com.estc.mediatech_2.dto.LoginRequestDto;
+import com.estc.mediatech_2.dto.LoginResponseDto;
+import com.estc.mediatech_2.dto.UserRequestDto;
+import com.estc.mediatech_2.dto.UserResponseDto;
+import com.estc.mediatech_2.models.UserEntity;
+import com.estc.mediatech_2.security.JwtUtil;
+import com.estc.mediatech_2.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
+public class AuthController {
+
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
+    private final UserService userService;
+    private final UserDao userDao;
+    private final ClientDao clientDao;
+    private final JwtUtil jwtUtil;
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request) {
+        System.out.println("👉 Tentative de connexion pour : " + request.getUsername());
+
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+            System.out.println("✅ Authentification réussie pour : " + request.getUsername());
+        } catch (Exception e) {
+            System.out.println("❌ Echec authentification pour " + request.getUsername() + ": " + e.getMessage());
+            throw e;
+        }
+
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+        final String token = jwtUtil.generateToken(userDetails);
+
+        // Récupérer les informations de l'utilisateur
+        UserEntity user = userDao.findByUsername(request.getUsername())
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        if (!user.isEnabled()) {
+            throw new RuntimeException("Votre compte n'est pas activé. Veuillez vérifier votre email.");
+        }
+
+        LoginResponseDto response = new LoginResponseDto();
+        response.setToken(token);
+        response.setUsername(user.getUsername());
+        response.setRole(user.getRole());
+
+        if (UserEntity.ROLE_CLIENT.equals(user.getRole())) {
+            clientDao.findByUser_Username(user.getUsername())
+                    .ifPresent(client -> {
+                        response.setId_client(client.getId_client());
+                        System.out.println("   -> ID Client associé : " + client.getId_client());
+                    });
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserResponseDto> register(@RequestBody UserRequestDto request) {
+        return ResponseEntity.ok(userService.createUser(request));
+    }
+
+    @PostMapping("/register/client")
+    public ResponseEntity<UserResponseDto> registerClient(@RequestBody UserRequestDto request) {
+        request.setRole(UserEntity.ROLE_CLIENT);
+        return ResponseEntity.ok(userService.createUser(request));
+    }
+
+    @PostMapping("/register/vendeur")
+    public ResponseEntity<UserResponseDto> registerVendeur(@RequestBody UserRequestDto request) {
+        request.setRole(UserEntity.ROLE_VENDEUR);
+        return ResponseEntity.ok(userService.createUser(request));
+    }
+
+    @PostMapping("/register/admin")
+    public ResponseEntity<UserResponseDto> registerAdmin(@RequestBody UserRequestDto request) {
+        request.setRole(UserEntity.ROLE_ADMIN);
+        return ResponseEntity.ok(userService.createUser(request));
+    }
+
+    @GetMapping("/verify")
+    public ResponseEntity<String> verifyAccount(@RequestParam("code") String code) {
+        boolean isVerified = userService.verifyUser(code);
+        if (isVerified) {
+            return ResponseEntity.ok("Compte vérifié avec succès ! Vous pouvez maintenant vous connecter.");
+        } else {
+            return ResponseEntity.badRequest().body("Lien de vérification invalide ou expiré.");
+        }
+    }
+}
