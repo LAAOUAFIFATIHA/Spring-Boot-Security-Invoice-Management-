@@ -4,4 +4,5 @@ export interface Produit {
     libelle_produit: string;
     prix_unitaire: number;
     qte_stock: number;
+    imageUrl?: string;
 }

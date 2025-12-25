@@ -9,4 +9,5 @@ public class ProduitRequestDto {
     private String libelle_produit;
     private BigDecimal prix_unitaire;
     private Integer qte_stock;
+    private String imageUrl;
 }

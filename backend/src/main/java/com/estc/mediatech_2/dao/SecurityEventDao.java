@@ -37,6 +37,11 @@ public interface SecurityEventDao extends JpaRepository<SecurityEventEntity, Lon
     List<SecurityEventEntity> findByIpAddress(String ipAddress);
 
     /**
+     * Find events by username since a specific time
+     */
+    List<SecurityEventEntity> findByUsernameAndTimestampAfter(String username, Instant timestamp);
+
+    /**
      * Find recent events (last N hours)
      */
     @Query("SELECT e FROM SecurityEventEntity e WHERE e.timestamp >= :since ORDER BY e.timestamp DESC")

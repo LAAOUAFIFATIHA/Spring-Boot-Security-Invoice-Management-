@@ -2,6 +2,7 @@ package com.estc.mediatech_2.controllers;
 
 import com.estc.mediatech_2.dao.SecurityEventDao;
 import com.estc.mediatech_2.models.SecurityEventEntity;
+import com.estc.mediatech_2.service.SecurityAnalyticsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,27 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Security Dashboard Controller for Admin
+ * Security Intelligence Dashboard Controller
  * 
- * Provides security monitoring and analytics endpoints:
- * - Recent security events
- * - Critical incidents
- * - Attack statistics
- * - User activity monitoring
- * - Threat intelligence
+ * DESIGN RATIONALE (Academic Context):
+ * This controller serves as the presentation layer for the Security Operations
+ * Center (SOC) module.
+ * 
+ * 1. SEPARATION OF CONCERNS:
+ * - Analytics logic is delegated to SecurityAnalyticsService (Domain Layer).
+ * - Data retrieval is delegated to SecurityEventDao (Persistence Layer).
+ * - This controller handles only HTTP mapping and response formatting
+ * (Interface Layer).
+ * 
+ * 2. DETERMINISTIC SECURITY (Why No AI?):
+ * - "Explainability": Rule-based systems provide clear, audit-friendly reasons
+ * for flagging (e.g. "5 failed logins").
+ * AI models (especially Deep Learning) can be "black boxes" which is
+ * unacceptable for forensic evidence.
+ * - "Predictability": Security policies must be enforced consistently.
+ * - "Efficiency": O(n) complexity vs high compute cost of ML inference.
+ * - "Baseline Creation": This structured data collection is the PREREQUISITE
+ * for future Anomaly Detection (Unsupervised Learning).
  * 
  * OWASP: A09:2021 – Security Logging and Monitoring Failures
  */
@@ -33,164 +47,79 @@ import java.util.stream.Collectors;
 public class SecurityDashboardController {
 
         private final SecurityEventDao securityEventDao;
+        private final SecurityAnalyticsService securityAnalyticsService;
 
         /**
-         * Get security dashboard overview
+         * Global SOC Overview
+         * Aggregates key metrics for the "Single Pane of Glass" view.
          */
         @GetMapping("/dashboard")
         public ResponseEntity<Map<String, Object>> getSecurityDashboard() {
-                log.info("Security dashboard accessed");
-
                 Instant last24Hours = Instant.now().minus(24, ChronoUnit.HOURS);
-                Instant last7Days = Instant.now().minus(7, ChronoUnit.DAYS);
 
-                // Get statistics
+                // metrics
                 long totalEvents = securityEventDao.count();
-                long recentEvents = securityEventDao.findRecentEvents(last24Hours).size();
-                long criticalEvents = securityEventDao.findCriticalEvents().size();
+                long recentEventsCount = securityEventDao.findRecentEvents(last24Hours).size();
+                long criticalEventsCount = securityEventDao.findCriticalEvents().size();
 
-                // Event type counts
-                Map<String, Long> eventTypeCounts = getEventTypeCountsLast24Hours();
-
-                // Severity distribution
-                Map<String, Long> severityDistribution = getSeverityDistribution(last24Hours);
-
-                // Top attacked resources
-                List<Map<String, Object>> topAttackedResources = getTopAttackedResources(last7Days);
-
-                // Recent critical incidents
-                List<SecurityEventEntity> recentCritical = securityEventDao.findCriticalEvents()
-                                .stream()
-                                .limit(10)
-                                .collect(Collectors.toList());
+                // Analytics
+                Map<String, Object> invoiceStats = securityAnalyticsService.getInvoiceSecurityStats();
+                List<SecurityAnalyticsService.UserRiskProfile> topRiskyUsers = securityAnalyticsService
+                                .getRiskyUsers(5);
 
                 Map<String, Object> dashboard = new HashMap<>();
-                dashboard.put("summary", Map.of(
-                                "totalEvents", totalEvents,
-                                "last24Hours", recentEvents,
-                                "criticalIncidents", criticalEvents));
-                dashboard.put("eventTypes", eventTypeCounts);
-                dashboard.put("severityDistribution", severityDistribution);
-                dashboard.put("topAttackedResources", topAttackedResources);
-                dashboard.put("recentCriticalIncidents", recentCritical);
-                dashboard.put("timestamp", Instant.now());
+
+                // KPI Section
+                dashboard.put("kpi", Map.of(
+                                "totalLogEntries", totalEvents,
+                                "events24h", recentEventsCount,
+                                "criticalAlerts", criticalEventsCount,
+                                "flaggedInvoices", invoiceStats.get("highValueFlagged")));
+
+                // Charts Data
+                dashboard.put("chart_severity", getSeverityDistribution(last24Hours));
+                dashboard.put("chart_types", getEventTypeCountsLast24Hours());
+
+                // Risk Tables
+                dashboard.put("topRiskyUsers", topRiskyUsers);
+                dashboard.put("suspiciousTransactions", invoiceStats.get("suspiciousTransactions"));
 
                 return ResponseEntity.ok(dashboard);
         }
 
         /**
-         * Get recent security events (last 24 hours)
+         * Risk Analysis API
+         * Returns users classified by excessive risk behavior.
          */
-        @GetMapping("/events/recent")
-        public ResponseEntity<List<SecurityEventEntity>> getRecentEvents(
+        @GetMapping("/users/risk")
+        public ResponseEntity<List<SecurityAnalyticsService.UserRiskProfile>> getUserRiskAnalysis(
+                        @RequestParam(defaultValue = "10") int limit) {
+                return ResponseEntity.ok(securityAnalyticsService.getRiskyUsers(limit));
+        }
+
+        /**
+         * Invoice Pattern Analysis
+         * Detects potential fraud or money laundering attempts (high value/high freq).
+         */
+        @GetMapping("/invoices/analysis")
+        public ResponseEntity<Map<String, Object>> getInvoiceAnalysis() {
+                return ResponseEntity.ok(securityAnalyticsService.getInvoiceSecurityStats());
+        }
+
+        /**
+         * Timeline Data for Line Charts
+         * Visualizes attack vectors over time.
+         */
+        @GetMapping("/events/timeline")
+        public ResponseEntity<List<Map<String, Object>>> getEventTimeline(
                         @RequestParam(defaultValue = "24") int hours) {
-
                 Instant since = Instant.now().minus(hours, ChronoUnit.HOURS);
-                List<SecurityEventEntity> events = securityEventDao.findRecentEvents(since);
-
-                log.info("Retrieved {} security events from last {} hours", events.size(), hours);
-                return ResponseEntity.ok(events);
+                return ResponseEntity.ok(getAttackTimeline(since));
         }
 
-        /**
-         * Get critical security incidents
-         */
-        @GetMapping("/events/critical")
-        public ResponseEntity<List<SecurityEventEntity>> getCriticalEvents() {
-                List<SecurityEventEntity> events = securityEventDao.findCriticalEvents();
-                log.info("Retrieved {} critical security events", events.size());
-                return ResponseEntity.ok(events);
-        }
-
-        /**
-         * Get events by type
-         */
-        @GetMapping("/events/type/{eventType}")
-        public ResponseEntity<List<SecurityEventEntity>> getEventsByType(
-                        @PathVariable String eventType) {
-
-                List<SecurityEventEntity> events = securityEventDao.findByEventType(eventType);
-                log.info("Retrieved {} events of type {}", events.size(), eventType);
-                return ResponseEntity.ok(events);
-        }
-
-        /**
-         * Get events by username
-         */
-        @GetMapping("/events/user/{username}")
-        public ResponseEntity<List<SecurityEventEntity>> getEventsByUsername(
-                        @PathVariable String username) {
-
-                List<SecurityEventEntity> events = securityEventDao.findByUsername(username);
-                log.info("Retrieved {} events for user {}", events.size(), username);
-                return ResponseEntity.ok(events);
-        }
-
-        /**
-         * Get events by IP address
-         */
-        @GetMapping("/events/ip/{ipAddress}")
-        public ResponseEntity<List<SecurityEventEntity>> getEventsByIP(
-                        @PathVariable String ipAddress) {
-
-                List<SecurityEventEntity> events = securityEventDao.findByIpAddress(ipAddress);
-                log.info("Retrieved {} events from IP {}", events.size(), ipAddress);
-                return ResponseEntity.ok(events);
-        }
-
-        /**
-         * Get attack statistics
-         */
-        @GetMapping("/statistics")
-        public ResponseEntity<Map<String, Object>> getSecurityStatistics(
-                        @RequestParam(defaultValue = "7") int days) {
-
-                Instant since = Instant.now().minus(days, ChronoUnit.DAYS);
-
-                Map<String, Object> stats = new HashMap<>();
-                stats.put("period", days + " days");
-                stats.put("eventTypes", getEventTypeStats(since));
-                stats.put("topAttackers", getTopAttackers(since));
-                stats.put("attackTimeline", getAttackTimeline(since));
-                stats.put("riskScore", calculateRiskScore(since));
-
-                return ResponseEntity.ok(stats);
-        }
-
-        /**
-         * Get threat intelligence summary
-         */
-        @GetMapping("/threats")
-        public ResponseEntity<Map<String, Object>> getThreatIntelligence() {
-                Map<String, Object> threats = new HashMap<>();
-
-                Instant last24h = Instant.now().minus(24, ChronoUnit.HOURS);
-
-                // Count different attack types
-                long sqlInjectionAttempts = securityEventDao.countByEventTypeAndTimestampBetween(
-                                "SQL_INJECTION_ATTEMPT", last24h, Instant.now());
-
-                long idorAttempts = securityEventDao.countByEventTypeAndTimestampBetween(
-                                "IDOR_ATTACK", last24h, Instant.now());
-
-                long authFailures = securityEventDao.countByEventTypeAndTimestampBetween(
-                                "AUTHENTICATION_FAILURE", last24h, Instant.now());
-
-                long massAssignmentAttempts = securityEventDao.countByEventTypeAndTimestampBetween(
-                                "MASS_ASSIGNMENT_ATTEMPT", last24h, Instant.now());
-
-                threats.put("sqlInjectionAttempts", sqlInjectionAttempts);
-                threats.put("idorAttempts", idorAttempts);
-                threats.put("authenticationFailures", authFailures);
-                threats.put("massAssignmentAttempts", massAssignmentAttempts);
-                threats.put("totalThreats",
-                                sqlInjectionAttempts + idorAttempts + authFailures + massAssignmentAttempts);
-                threats.put("timestamp", Instant.now());
-
-                return ResponseEntity.ok(threats);
-        }
-
-        // Helper methods
+        // ============================================================================================
+        // HELPER METHODS (Data Transformation for Frontend Charts)
+        // ============================================================================================
 
         private Map<String, Long> getEventTypeCountsLast24Hours() {
                 Instant since = Instant.now().minus(24, ChronoUnit.HOURS);
@@ -209,56 +138,9 @@ public class SecurityDashboardController {
                                                 Collectors.counting()));
         }
 
-        private List<Map<String, Object>> getTopAttackedResources(Instant since) {
-                return securityEventDao.findRecentEvents(since)
-                                .stream()
-                                .filter(e -> e.getResource() != null)
-                                .collect(Collectors.groupingBy(
-                                                SecurityEventEntity::getResource,
-                                                Collectors.counting()))
-                                .entrySet()
-                                .stream()
-                                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                                .limit(10)
-                                .map(e -> {
-                                        Map<String, Object> map = new HashMap<>();
-                                        map.put("resource", e.getKey());
-                                        map.put("count", e.getValue());
-                                        return map;
-                                })
-                                .collect(Collectors.toList());
-        }
-
-        private Map<String, Long> getEventTypeStats(Instant since) {
-                return securityEventDao.findRecentEvents(since)
-                                .stream()
-                                .collect(Collectors.groupingBy(
-                                                SecurityEventEntity::getEventType,
-                                                Collectors.counting()));
-        }
-
-        private List<Map<String, Object>> getTopAttackers(Instant since) {
-                return securityEventDao.findRecentEvents(since)
-                                .stream()
-                                .filter(e -> e.getIpAddress() != null)
-                                .collect(Collectors.groupingBy(
-                                                SecurityEventEntity::getIpAddress,
-                                                Collectors.counting()))
-                                .entrySet()
-                                .stream()
-                                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                                .limit(10)
-                                .map(e -> {
-                                        Map<String, Object> map = new HashMap<>();
-                                        map.put("ipAddress", e.getKey());
-                                        map.put("attacks", e.getValue());
-                                        return map;
-                                })
-                                .collect(Collectors.toList());
-        }
-
         private List<Map<String, Object>> getAttackTimeline(Instant since) {
-                // Group by hour
+                // Returns [{hour: '10:00', count: 12}, ...]
+                // Optimal for Angular Charts (Chart.js / Ngx-Charts)
                 return securityEventDao.findRecentEvents(since)
                                 .stream()
                                 .collect(Collectors.groupingBy(
@@ -269,26 +151,10 @@ public class SecurityDashboardController {
                                 .sorted(Map.Entry.comparingByKey())
                                 .map(e -> {
                                         Map<String, Object> map = new HashMap<>();
-                                        map.put("hour", e.getKey());
+                                        map.put("timestamp", e.getKey().toString());
                                         map.put("count", e.getValue());
                                         return map;
                                 })
                                 .collect(Collectors.toList());
-        }
-
-        private int calculateRiskScore(Instant since) {
-                List<SecurityEventEntity> events = securityEventDao.findRecentEvents(since);
-
-                int score = 0;
-                for (SecurityEventEntity event : events) {
-                        switch (event.getSeverity()) {
-                                case "CRITICAL" -> score += 10;
-                                case "WARN" -> score += 3;
-                                case "INFO" -> score += 1;
-                        }
-                }
-
-                // Normalize to 0-100
-                return Math.min(100, score);
         }
 }

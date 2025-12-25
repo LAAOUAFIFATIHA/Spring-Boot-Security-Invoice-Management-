@@ -23,6 +23,7 @@ public class ProduitServiceImpl implements ProduitService {
         entity.setLibelle_produit(request.getLibelle_produit());
         entity.setPrix_unitaire(request.getPrix_unitaire());
         entity.setQte_stock(request.getQte_stock());
+        entity.setImageUrl(request.getImageUrl());
         return mapToDto(produitDao.save(entity));
     }
 
@@ -38,13 +39,23 @@ public class ProduitServiceImpl implements ProduitService {
             entity.setLibelle_produit(request.getLibelle_produit());
             entity.setPrix_unitaire(request.getPrix_unitaire());
             entity.setQte_stock(request.getQte_stock());
+            entity.setImageUrl(request.getImageUrl());
             return mapToDto(produitDao.save(entity));
         }).orElse(null);
     }
 
     @Override
+    @org.springframework.transaction.annotation.Transactional
     public void delete(Long id) {
-        produitDao.deleteById(id);
+        try {
+            produitDao.deleteById(id);
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            throw new RuntimeException(
+                    "CRITICAL_ERROR: Impossible de supprimer ce produit car il est référencé dans des factures existantes. Veuillez supprimer les lignes de facture associées d'abord.");
+        } catch (Exception e) {
+            throw new RuntimeException(
+                    "SYSTEM_ERROR: Une erreur est survenue lors de la suppression: " + e.getMessage());
+        }
     }
 
     @Override
@@ -59,6 +70,7 @@ public class ProduitServiceImpl implements ProduitService {
         dto.setLibelle_produit(entity.getLibelle_produit());
         dto.setPrix_unitaire(entity.getPrix_unitaire());
         dto.setQte_stock(entity.getQte_stock());
+        dto.setImageUrl(entity.getImageUrl());
         return dto;
     }
 }

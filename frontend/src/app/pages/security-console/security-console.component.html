@@ -1,0 +1,125 @@
+<div class="security-console-container">
+    <header class="console-header">
+        <h1>🛡️ Security Intelligence Console</h1>
+        <p>Real-time Threat Monitoring & Vulnerability Management</p>
+    </header>
+
+    <div *ngIf="loading" class="loading-spinner">
+        Loading Intelligence Data...
+    </div>
+
+    <div *ngIf="!loading" class="dashboard-grid">
+
+        <!-- SECTION 1: USER RISK PROFILING -->
+        <section class="card risk-section">
+            <h2><span class="icon">👥</span> User Risk Profiling</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Risk Score</th>
+                            <th>Level</th>
+                            <th>Top Factor</th>
+                            <th>Incidents</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of riskyUsers" [class.row-critical]="user.riskLevel === 'CRITICAL'">
+                            <td><strong>{{ user.username }}</strong></td>
+                            <td>{{ user.riskScore }}</td>
+                            <td>
+                                <span class="badge" [ngClass]="getSeverityClass(user.riskLevel)">
+                                    {{ user.riskLevel }}
+                                </span>
+                            </td>
+                            <td>{{ user.topRiskFactor }}</td>
+                            <td>{{ user.incidentCount }}</td>
+                        </tr>
+                        <tr *ngIf="riskyUsers.length === 0">
+                            <td colspan="5" class="empty-state">No high-risk users detected.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Automated Recommendations -->
+            <div class="recommendations-panel" *ngIf="riskyUsers.length > 0">
+                <h3>⚡ Automated Mitigation Actions</h3>
+                <ul>
+                    <li *ngFor="let user of riskyUsers">
+                        <strong>{{ user.username }}:</strong>
+                        <ul class="sub-list">
+                            <li *ngFor="let rec of user.recommendations" class="mitigation-item">
+                                {{ rec }}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECTION 2: VULNERABILITY MANAGEMENT -->
+        <section class="card vuln-section">
+            <h2><span class="icon">🦠</span> Vulnerability Detection (CVEs)</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>CVE ID</th>
+                            <th>Severity</th>
+                            <th>Remediation Strategy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let vuln of vulnerabilities">
+                            <td>{{ vuln.component }}</td>
+                            <td><code>{{ vuln.cveId }}</code></td>
+                            <td>
+                                <span class="badge" [ngClass]="getSeverityClass(vuln.severity)">
+                                    {{ vuln.severity }}
+                                </span>
+                            </td>
+                            <td class="remediation-cell">
+                                <div class="description">{{ vuln.description }}</div>
+                                <div class="fix-action">👉 <strong>Fix:</strong> {{ vuln.remediation }}</div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="vulnerabilities.length === 0">
+                            <td colspan="4" class="empty-state">No vulnerabilities detected. System Secure.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 3: FINANCIAL FORENSICS -->
+        <section class="card finance-section">
+            <h2><span class="icon">💰</span> Financial Anomaly Detection</h2>
+
+            <div class="stats-row">
+                <div class="stat-box">
+                    <label>Total Invoices</label>
+                    <div class="value">{{ invoiceStats?.totalInvoices || 0 }}</div>
+                </div>
+                <div class="stat-box warning">
+                    <label>Audit Flagged</label>
+                    <div class="value">{{ invoiceStats?.highValueFlagged || 0 }}</div>
+                </div>
+            </div>
+
+            <div class="suspicious-list" *ngIf="invoiceStats?.suspiciousTransactions?.length">
+                <h3>Suspicious Transactions (> 5k)</h3>
+                <ul>
+                    <li *ngFor="let tx of invoiceStats?.suspiciousTransactions" class="tx-item">
+                        <span class="tx-ref">{{ tx.ref }}</span>
+                        <span class="tx-amount">{{ tx.amount | currency:'EUR' }}</span>
+                        <span class="tx-user">User: {{ tx.user }}</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+</div>

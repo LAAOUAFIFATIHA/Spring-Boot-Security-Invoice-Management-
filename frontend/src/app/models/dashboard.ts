@@ -8,4 +8,5 @@ export interface DashboardStatsDto {
     totalProducts: number;
     totalStock: number;
     sellerStats: VendeurStatDto[];
+    vulnerabilityCount: number;
 }

@@ -65,10 +65,21 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['VENDEUR', 'CLIENT'] } // Admin NOT included here
     },
-    // Dependency Dashboard - Admin only
     {
         path: 'dependencies',
         component: DependencyDashboardComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['ADMIN'] }
+    },
+    {
+        path: 'security-console',
+        loadComponent: () => import('./pages/security-console/security-console.component').then(m => m.SecurityConsoleComponent),
+        canActivate: [roleGuard],
+        data: { roles: ['ADMIN'] }
+    },
+    {
+        path: 'system-monitoring',
+        loadComponent: () => import('./pages/system-monitoring/system-monitoring.component').then(m => m.SystemMonitoringComponent),
         canActivate: [roleGuard],
         data: { roles: ['ADMIN'] }
     },

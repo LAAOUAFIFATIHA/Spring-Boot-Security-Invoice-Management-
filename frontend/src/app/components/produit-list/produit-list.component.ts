@@ -24,19 +24,39 @@ export class ProduitListComponent implements OnInit {
   }
 
   loadProduits() {
-    this.produitService.getProduits().subscribe(data => this.produits = data);
+    this.produitService.getProduits().subscribe({
+      next: (data) => this.produits = data,
+      error: (err) => alert("Erreur lors du chargement des produits.")
+    });
+  }
+
+  getStockClass(qte: number): string {
+    if (qte <= 0) return 'out';
+    if (qte <= 5) return 'low-stock';
+    return 'in-stock';
   }
 
   saveProduit() {
+    if (!this.newProduit.ref_produit || !this.newProduit.libelle_produit) {
+      alert("Veuillez remplir au moins la référence et le libellé.");
+      return;
+    }
+
     if (this.isEditing && this.editingId) {
-      this.produitService.updateProduit(this.editingId, this.newProduit).subscribe(() => {
-        this.loadProduits();
-        this.resetForm();
+      this.produitService.updateProduit(this.editingId, this.newProduit).subscribe({
+        next: () => {
+          this.loadProduits();
+          this.resetForm();
+        },
+        error: (err) => alert("Erreur lors de la modification.")
       });
     } else {
-      this.produitService.createProduit(this.newProduit).subscribe(() => {
-        this.loadProduits();
-        this.resetForm();
+      this.produitService.createProduit(this.newProduit).subscribe({
+        next: () => {
+          this.loadProduits();
+          this.resetForm();
+        },
+        error: (err) => alert("Erreur lors de l'ajout. La référence existe peut-être déjà.")
       });
     }
   }
@@ -48,13 +68,21 @@ export class ProduitListComponent implements OnInit {
   }
 
   deleteProduit(id: number) {
-    if (confirm('Êtes-vous sûr ?')) {
-      this.produitService.deleteProduit(id).subscribe(() => this.loadProduits());
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
+      this.produitService.deleteProduit(id).subscribe({
+        next: () => {
+          this.loadProduits();
+        },
+        error: (err) => {
+          console.error('Delete failed', err);
+          alert('Erreur: Impossible de supprimer ce produit. Il est probablement utilisé dans une facture.');
+        }
+      });
     }
   }
 
   resetForm() {
-    this.newProduit = { ref_produit: '', libelle_produit: '', prix_unitaire: 0, qte_stock: 0 };
+    this.newProduit = { ref_produit: '', libelle_produit: '', prix_unitaire: 0, qte_stock: 0, imageUrl: '' };
     this.isEditing = false;
     this.editingId = null;
   }

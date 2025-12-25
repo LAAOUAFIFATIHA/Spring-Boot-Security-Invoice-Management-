@@ -21,6 +21,7 @@ public class DashboardServiceImpl implements DashboardService {
 
     private final ProduitDao produitDao;
     private final FactureDao factureDao;
+    private final SecurityAnalyticsService securityAnalyticsService;
 
     @Override
     public DashboardStatsDto getAdminStats() {
@@ -64,6 +65,9 @@ public class DashboardServiceImpl implements DashboardService {
                 .collect(Collectors.toList());
 
         stats.setSellerStats(sellerStats);
+
+        // 3. Security Stats
+        stats.setVulnerabilityCount(securityAnalyticsService.getVulnerabilityReport().size());
 
         return stats;
     }

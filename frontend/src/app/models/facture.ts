@@ -16,5 +16,6 @@ export interface Facture {
     client?: Client; // Response
     id_client?: number; // Request
     vendeur?: { username: string }; // Response
+    montant_total?: number;
     ligneFactures: LigneFacture[];
 }

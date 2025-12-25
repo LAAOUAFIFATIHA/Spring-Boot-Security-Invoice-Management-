@@ -14,4 +14,5 @@ public class DashboardStatsDto {
     private long totalProducts;
     private long totalStock; // Sum of quantities
     private List<VendeurStatDto> sellerStats;
+    private long vulnerabilityCount;
 }

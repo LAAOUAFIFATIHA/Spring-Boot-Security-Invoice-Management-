@@ -27,88 +27,78 @@ export class DependencyService {
     private getMockReport(): DependencyReport {
         return {
             generatedAt: new Date().toISOString(),
-            totalDependencies: 12,
-            vulnerableDependencies: 3,
+            totalDependencies: 15,
+            vulnerableDependencies: 1,
             vulnerabilityCountBySeverity: {
-                'CRITICAL': 1,
-                'HIGH': 1,
+                'CRITICAL': 0,
+                'HIGH': 0,
                 'MEDIUM': 1,
-                'LOW': 0
+                'LOW': 2
             },
             dependenciesByCategory: {
-                'compile': 10,
-                'runtime': 2
+                'compile': 12,
+                'runtime': 3
             },
-            criticalCount: 1,
-            highCount: 1,
+            criticalCount: 0,
+            highCount: 0,
             mediumCount: 1,
-            lowCount: 0,
-            overallRiskLevel: 'CRITICAL',
+            lowCount: 2,
+            overallRiskLevel: 'MEDIUM',
             dependencies: [
                 {
-                    groupId: 'org.springframework.boot',
-                    artifactId: 'spring-boot-starter-web',
-                    version: '3.0.0',
+                    groupId: 'com.itextpdf',
+                    artifactId: 'itextpdf',
+                    version: '5.5.13.3',
                     scope: 'compile',
                     category: 'compile',
                     vulnerabilityCount: 1,
                     riskLevel: 'MEDIUM',
                     vulnerabilities: [
                         {
-                            cveId: 'CVE-2023-EXAMPLE',
+                            cveId: 'CVE-2017-9096',
                             severity: 'MEDIUM',
                             cvssScore: 5.3,
-                            description: 'Example vulnerability description for Spring Boot Web.',
-                            affectedVersions: '< 3.2.0',
-                            fixedVersion: '3.2.0+',
-                            reference: 'https://nvd.nist.gov/'
+                            description: 'iText PDF library contains a vulnerability in the PdfPKCS7 class that could allow signature validation bypass.',
+                            affectedVersions: '5.x series',
+                            fixedVersion: '7.x (itext7-core)',
+                            reference: 'https://nvd.nist.gov/vuln/detail/CVE-2017-9096'
+                        }
+                    ]
+                },
+                {
+                    groupId: 'io.jsonwebtoken',
+                    artifactId: 'jjwt-api',
+                    version: '0.11.5',
+                    scope: 'compile',
+                    category: 'compile',
+                    vulnerabilityCount: 1,
+                    riskLevel: 'LOW',
+                    vulnerabilities: [
+                        {
+                            cveId: 'ADVISORY-2023',
+                            severity: 'LOW',
+                            cvssScore: 2.0,
+                            description: 'Using an older version of JJWT. While no critical CVEs exist, newer versions (0.12.x) include security improvements.',
+                            affectedVersions: '< 0.12.0',
+                            fixedVersion: '0.12.5+',
+                            reference: 'https://github.com/jwtk/jjwt/releases'
                         }
                     ]
                 },
                 {
                     groupId: 'com.fasterxml.jackson.core',
                     artifactId: 'jackson-databind',
-                    version: '2.14.0',
+                    version: '2.15.3',
                     scope: 'compile',
                     category: 'compile',
-                    vulnerabilityCount: 1,
-                    riskLevel: 'HIGH',
-                    vulnerabilities: [
-                        {
-                            cveId: 'CVE-2023-35116',
-                            severity: 'HIGH',
-                            cvssScore: 7.5,
-                            description: 'Polymorphic Typing issue allowing remote code execution.',
-                            affectedVersions: '< 2.15.0',
-                            fixedVersion: '2.15.0+',
-                            reference: 'https://nvd.nist.gov/'
-                        }
-                    ]
-                },
-                {
-                    groupId: 'org.apache.logging.log4j',
-                    artifactId: 'log4j-core',
-                    version: '2.14.1',
-                    scope: 'compile',
-                    category: 'compile',
-                    vulnerabilityCount: 1,
-                    riskLevel: 'CRITICAL',
-                    vulnerabilities: [
-                        {
-                            cveId: 'CVE-2021-44228',
-                            severity: 'CRITICAL',
-                            cvssScore: 10.0,
-                            description: 'Log4Shell - Remote Code Execution vulnerability in Log4j.',
-                            affectedVersions: '2.0-beta9 to 2.14.1',
-                            fixedVersion: '2.15.0',
-                            reference: 'https://logging.apache.org/'
-                        }
-                    ]
+                    vulnerabilityCount: 0,
+                    riskLevel: 'NONE',
+                    vulnerabilities: []
                 },
                 {
                     groupId: 'com.mysql',
                     artifactId: 'mysql-connector-j',
-                    version: '8.2.0',
+                    version: '8.3.0',
                     scope: 'runtime',
                     category: 'runtime',
                     vulnerabilityCount: 0,

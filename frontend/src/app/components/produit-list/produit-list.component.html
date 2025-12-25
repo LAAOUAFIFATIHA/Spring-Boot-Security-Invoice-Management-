@@ -1,37 +1,48 @@
-<div class="list-container">
-    <h2>Gestion des Produits</h2>
+<div class="produit-page">
+    <header class="header-section">
+        <h2>Gestion de l'Inventaire</h2>
+        <p>Gérez vos produits avec un contrôle de stock précis et des visuels haute définition.</p>
+    </header>
 
     <div class="form-container">
-        <h3>{{ isEditing ? 'Modifier' : 'Ajouter' }} un Produit</h3>
-        <input [(ngModel)]="newProduit.ref_produit" placeholder="Référence">
-        <input [(ngModel)]="newProduit.libelle_produit" placeholder="Libellé">
-        <input type="number" [(ngModel)]="newProduit.prix_unitaire" placeholder="Prix">
-        <input type="number" [(ngModel)]="newProduit.qte_stock" placeholder="Stock">
-        <button (click)="saveProduit()">Valider</button>
-        <button (click)="resetForm()" *ngIf="isEditing">Annuler</button>
+        <h3>{{ isEditing ? '⚡ MODIFIER' : '➕ AJOUTER' }} UN PRODUIT</h3>
+        <input [(ngModel)]="newProduit.ref_produit" placeholder="Référence (ex: PC-001)">
+        <input [(ngModel)]="newProduit.libelle_produit" placeholder="Libellé du produit">
+        <input type="number" [(ngModel)]="newProduit.prix_unitaire" placeholder="Prix Unitaire (€)">
+        <input type="number" [(ngModel)]="newProduit.qte_stock" placeholder="Stock Initial">
+        <input [(ngModel)]="newProduit.imageUrl" placeholder="URL Image (Optionnel)">
+
+        <button class="btn-primary" (click)="saveProduit()">
+            {{ isEditing ? 'METTRE À JOUR' : 'ENREGISTRER' }}
+        </button>
+        <button class="btn-icon" (click)="resetForm()" *ngIf="isEditing">ANNULER</button>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>REF</th>
-                <th>Libellé</th>
-                <th>Prix</th>
-                <th>Stock</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let produit of produits">
-                <td>{{ produit.ref_produit }}</td>
-                <td>{{ produit.libelle_produit }}</td>
-                <td>{{ produit.prix_unitaire }}</td>
-                <td>{{ produit.qte_stock }}</td>
-                <td>
-                    <button (click)="editProduit(produit)">Edit</button>
-                    <button (click)="deleteProduit(produit.id_produit!)">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="product-grid">
+        <div class="product-card" *ngFor="let produit of produits; let i = index"
+            [style.animation-delay]="(i * 0.1) + 's'">
+            <div class="image-container">
+                <img *ngIf="produit.imageUrl" [src]="produit.imageUrl" alt="Product" class="product-image">
+                <div *ngIf="!produit.imageUrl" class="no-image">📦</div>
+            </div>
+
+            <div class="card-content">
+                <div class="prod-ref">{{ produit.ref_produit }}</div>
+                <h4>{{ produit.libelle_produit }}</h4>
+
+                <div class="price-stock">
+                    <div class="price">{{ produit.prix_unitaire | currency:'EUR' }}</div>
+                    <div [class]="'stock-badge ' + getStockClass(produit.qte_stock)">
+                        {{ produit.qte_stock > 0 ? (produit.qte_stock + ' EN STOCK') : 'RUPTURE' }}
+                    </div>
+                </div>
+
+                <div class="card-actions">
+                    <button class="btn-icon" (click)="editProduit(produit)">✏️ MODIFIER</button>
+                    <button class="btn-icon btn-delete" (click)="deleteProduit(produit.id_produit!)">🗑️
+                        SUPPRIMER</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
