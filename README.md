@@ -322,7 +322,7 @@ graph TB
 ### 🔴 Admin Dashboard
 *Complete system overview with real-time statistics and security monitoring*
 
-![Admin Dashboard](docs/images/dashboards/admin-dashboard.png)
+![Admin Dashboard](img/home.png)
 
 **Features shown:**
 - Real-time system statistics
@@ -1044,3 +1044,4 @@ It helps others discover the project and motivates continued development!
 <div align="center">
 <sub>Last Updated: December 2024 | Version 1.0.0</sub>
 </div>
+
