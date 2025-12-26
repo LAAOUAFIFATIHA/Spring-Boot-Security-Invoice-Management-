@@ -13,12 +13,14 @@
 
 **A cutting-edge enterprise application demonstrating secure full-stack development**
 
+<img src="img/home.png" alt="home page ">
+
 [Features](#-key-features) • [Demo](#-screenshots) • [Installation](#-getting-started) • [Documentation](#-api-documentation) • [Security](#-security-features)
 
 
 </div>
 
-<img src="img/home.png" alt="home page ">
+
 
 ---
 
@@ -324,44 +326,27 @@ graph TB
 
 > 📁 **Note**: To add screenshots, place images in `docs/images/dashboards/` directory
 
-### 🔴 Admin Dashboard
-*Complete system overview with real-time statistics and security monitoring*
+### 🔴 Application's Interfaces
+Complete system overview with real-time statistics and security monitoring*
 
 ![Admin Dashboard](img/home.png)
 
-**Features shown:**
-- Real-time system statistics
-- User activity monitoring
-- Security alerts dashboard
-- Revenue analytics charts
+---
+
+![Vendeur Dashboard](img/admin1.png)
+
 
 ---
 
-### 🟢 Vendeur Dashboard
-*Comprehensive invoice and client management interface*
-
-![Vendeur Dashboard](docs/images/dashboards/vendeur-dashboard.png)
-
-**Features shown:**
-- Invoice creation wizard
-- Client management table
-- Product catalog view
-- Sales performance metrics
+![Client Dashboard](img/admin2.png)
 
 ---
-
-### 🔵 Client Dashboard
-*User-friendly product catalog and invoice history*
-
-![Client Dashboard](docs/images/dashboards/client-dashboard.png)
-
-**Features shown:**
-- Browse product catalog
-- View invoice history
-- Download PDF invoices
-- Account information
+![Client Dashboard](img/V1.png)
+---
+![Client Dashboard](img/V2.png)
 
 ---
+![Client Dashboard](img/PERFOR.png)
 
 ## 🎬 Live Demonstrations
 
@@ -1049,6 +1034,7 @@ It helps others discover the project and motivates continued development!
 <div align="center">
 <sub>Last Updated: December 2024 | Version 1.0.0</sub>
 </div>
+
 
 
 
