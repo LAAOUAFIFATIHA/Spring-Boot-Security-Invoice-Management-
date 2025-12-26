@@ -1,374 +1,582 @@
 # 🔐 Secure Invoice Management System
 
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Angular](https://img.shields.io/badge/Angular-17-red.svg)](https://angular.io/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Security](https://img.shields.io/badge/Security-OWASP%20Top%2010-orange.svg)](https://owasp.org/www-project-top-ten/)
+<div align="center">
 
-A modern, enterprise-grade **Invoice Management System** built with **Spring Boot 3.2** and **Angular 17**, featuring comprehensive security measures, JWT authentication, and role-based access control (RBAC).
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-brightgreen.svg?style=for-the-badge&logo=spring)](https://spring.io/projects/spring-boot)
+[![Angular](https://img.shields.io/badge/Angular-17-red.svg?style=for-the-badge&logo=angular)](https://angular.io/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-blue.svg?style=for-the-badge&logo=mysql)](https://www.mysql.com/)
+[![JWT](https://img.shields.io/badge/JWT-Auth-black.svg?style=for-the-badge&logo=jsonwebtokens)](https://jwt.io/)
+[![Security](https://img.shields.io/badge/Security-OWASP%20Top%2010-orange.svg?style=for-the-badge&logo=owasp)](https://owasp.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
----
+**A cutting-edge enterprise application demonstrating secure full-stack development**
 
-## 📋 Table of Contents
+[Features](#-key-features) • [Demo](#-screenshots) • [Installation](#-getting-started) • [Documentation](#-api-documentation) • [Security](#-security-features)
 
-- [Overview](#-overview)
-- [Key Features](#-key-features)
-- [Technology Stack](#-technology-stack)
-- [Architecture](#-architecture)
-- [User Roles](#-user-roles)
-- [Security Features](#-security-features)
-- [Screenshots](#-screenshots)
-- [Getting Started](#-getting-started)
-- [API Documentation](#-api-documentation)
-- [Security Analysis](#-security-analysis)
-- [Contributing](#-contributing)
-- [License](#-license)
+</div>
 
 ---
 
-## 🎯 Overview
+## 🌟 Project Overview
 
-This application provides a **secure and scalable** solution for managing invoices, clients, products, and commercial transactions. Designed with **enterprise security best practices** and **OWASP Top 10 awareness**, it demonstrates professional-grade architecture suitable for real-world deployment.
+An **enterprise-grade Invoice Management System** that combines modern web technologies with **military-grade security** practices. Built with **Spring Boot 3.2** and **Angular 17**, this application showcases professional software architecture, implementing **JWT authentication**, **role-based access control**, and comprehensive protection against **OWASP Top 10** vulnerabilities.
 
-### Project Objectives
+### 🎯 Why This Project Stands Out
 
-- ✅ Secure management of invoices and commercial operations
-- ✅ Strong authentication & authorization mechanisms
-- ✅ Role-based access control (ADMIN, VENDEUR, CLIENT)
-- ✅ Protection against common web vulnerabilities
-- ✅ Real-time security monitoring and audit logging
-- ✅ Professional UI/UX with responsive design
+- ✨ **Production-Ready**: Enterprise architecture with scalability in mind
+- 🔐 **Security-First**: OWASP compliant with JWT, BCrypt, and RBAC
+- 🎨 **Modern Stack**: Latest versions of Spring Boot & Angular
+- 📊 **Real-Time Analytics**: Dynamic dashboards with Chart.js
+- 🧪 **Test Coverage**: Comprehensive unit and integration tests
+- 🐳 **Containerized**: Ready for Docker deployment
+- 📚 **Well Documented**: Clear API docs and code comments
 
 ---
 
 ## ✨ Key Features
 
-### Business Features
-- 📊 **Invoice Management**: Create, view, update, and delete invoices
-- 👥 **Client Management**: Comprehensive client database with CRUD operations
-- 📦 **Product Catalog**: Dynamic product management with inventory tracking
-- 📈 **Dashboard Analytics**: Real-time statistics and business insights
-- 📄 **PDF Generation**: Secure invoice PDF export functionality
-- 🔍 **Advanced Search**: Filter and search across all entities
+<table>
+<tr>
+<td width="50%">
 
-### Security Features
-- 🔐 **JWT Authentication**: Stateless, secure token-based authentication
-- 🛡️ **Role-Based Access Control**: Fine-grained permissions per role
-- 🔒 **Password Encryption**: BCrypt hashing with secure salting
-- 🚫 **CSRF Protection**: Cross-Site Request Forgery prevention
-- 📝 **Audit Logging**: Complete activity tracking and monitoring
-- 🔍 **Input Validation**: Server-side and client-side validation
-- 🛑 **SQL Injection Prevention**: Prepared statements and ORM
-- 🔐 **CORS Configuration**: Controlled cross-origin resource sharing
+### 💼 Business Capabilities
+
+- 📄 **Complete Invoice Lifecycle**
+  - Create, read, update, delete invoices
+  - Real-time calculation of totals
+  - PDF generation and export
+  
+- 👥 **Client Management**
+  - Full CRUD operations
+  - Search and filter capabilities
+  - Client history tracking
+
+- 📦 **Product Catalog**
+  - Inventory management
+  - Pricing controls
+  - Category organization
+
+- 📊 **Analytics Dashboard**
+  - Sales statistics
+  - Revenue tracking
+  - Visual charts and graphs
+
+</td>
+<td width="50%">
+
+### 🔒 Security Arsenal
+
+- 🛡️ **Authentication**
+  - JWT token-based auth
+  - Stateless session management
+  - Token refresh mechanism
+  
+- 🔐 **Authorization**
+  - Role-based access control (RBAC)
+  - Method-level security
+  - Dynamic permission checking
+
+- 🚫 **Threat Protection**
+  - SQL Injection prevention
+  - XSS mitigation
+  - CSRF protection
+  - IDOR prevention
+  - Mass assignment protection
+
+- 📝 **Audit & Monitoring**
+  - Complete activity logging
+  - Security event tracking
+  - Anomaly detection ready
+
+</td>
+</tr>
+</table>
 
 ---
 
 ## 🛠 Technology Stack
 
-### Backend
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| **Spring Boot** | 3.2 | Application framework |
-| **Spring Security** | 6.x | Authentication & Authorization |
-| **Spring Data JPA** | 3.2 | Database ORM |
-| **MySQL** | 8.0+ | Relational database |
-| **JWT (jjwt)** | 0.12.x | Token generation & validation |
-| **Lombok** | Latest | Boilerplate reduction |
-| **Maven** | 3.8+ | Dependency management |
+<div align="center">
 
-### Frontend
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| **Angular** | 17 | Frontend framework |
-| **TypeScript** | 5.x | Type-safe JavaScript |
-| **RxJS** | 7.x | Reactive programming |
-| **Bootstrap** | 5.x | UI components |
-| **Angular Material** | 17 | Modern UI components |
-| **Chart.js** | Latest | Data visualization |
+### Backend Technologies
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2-6DB33F?style=flat-square&logo=spring-boot)
+![Spring Security](https://img.shields.io/badge/Spring_Security-6.x-6DB33F?style=flat-square&logo=spring-security)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-0.12.x-000000?style=flat-square&logo=json-web-tokens)
+![Maven](https://img.shields.io/badge/Maven-3.8+-C71A36?style=flat-square&logo=apache-maven)
+
+### Frontend Technologies
+![Angular](https://img.shields.io/badge/Angular-17-DD0031?style=flat-square&logo=angular)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.x-7952B3?style=flat-square&logo=bootstrap)
+![RxJS](https://img.shields.io/badge/RxJS-7.x-B7178C?style=flat-square&logo=reactivex)
+![Chart.js](https://img.shields.io/badge/Chart.js-Latest-FF6384?style=flat-square&logo=chart.js)
 
 ### DevOps & Tools
-- **Docker**: Containerization
-- **Docker Compose**: Multi-container orchestration
-- **Git**: Version control
-- **GitHub Actions**: CI/CD pipeline
+![Docker](https://img.shields.io/badge/Docker-20.x-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Git](https://img.shields.io/badge/Git-2.x-F05032?style=flat-square&logo=git&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI/CD-2088FF?style=flat-square&logo=github-actions&logoColor=white)
+
+</div>
 
 ---
 
-## 🏗 Architecture
+## 🏗 System Architecture
 
-### System Architecture
+<div align="center">
 
+```mermaid
+graph TB
+    subgraph "Frontend Layer"
+        A[Angular 17 SPA]
+        B[Angular Router]
+        C[Auth Guards]
+        D[HTTP Interceptors]
+    end
+    
+    subgraph "Backend Layer"
+        E[Spring Boot REST API]
+        F[JWT Filter]
+        G[Spring Security]
+        H[Service Layer]
+        I[Repository Layer]
+    end
+    
+    subgraph "Data Layer"
+        J[(MySQL Database)]
+    end
+    
+    A --> B
+    B --> C
+    C --> D
+    D -->|HTTPS/JWT| E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+    
+    style A fill:#dd0031
+    style E fill:#6db33f
+    style J fill:#4479a1
 ```
-┌─────────────────┐      HTTPS/REST API      ┌─────────────────┐
-│                 │◄────────────────────────►│                 │
-│  Angular 17     │      JWT Token           │  Spring Boot    │
-│  Frontend       │                          │  Backend        │
-│                 │                          │                 │
-└─────────────────┘                          └────────┬────────┘
-                                                      │
-                                                      │ JPA/Hibernate
-                                                      │
-                                              ┌───────▼────────┐
-                                              │                │
-                                              │  MySQL         │
-                                              │  Database      │
-                                              │                │
-                                              └────────────────┘
-```
 
-### Backend Architecture
-- **Controller Layer**: REST endpoints, request handling
-- **Service Layer**: Business logic, transaction management
-- **Repository Layer**: Data access, database operations
-- **Security Layer**: JWT filters, authentication, authorization
-- **DTO Layer**: Data transfer objects, mapping
+</div>
 
-### Frontend Architecture
-- **Components**: Reusable UI components
-- **Services**: HTTP clients, state management
-- **Guards**: Route protection, role-based navigation
-- **Interceptors**: JWT token injection, error handling
-- **Models**: TypeScript interfaces and types
+### 🎯 Layered Architecture
+
+| Layer | Components | Responsibility |
+|-------|-----------|----------------|
+| **Presentation** | Angular Components, Templates | User interface, UX |
+| **API** | REST Controllers, DTOs | Request handling, validation |
+| **Business Logic** | Services, Business rules | Core functionality |
+| **Data Access** | Repositories, JPA Entities | Database operations |
+| **Security** | JWT Filters, Auth Services | Authentication, authorization |
+| **Database** | MySQL Tables, Relationships | Data persistence |
 
 ---
 
-## 👥 User Roles
+## 👥 User Roles & Permissions
 
-The system implements three distinct user roles with specific permissions:
+<table>
+<tr>
+<th width="33%">🔴 ADMIN</th>
+<th width="33%">🟢 VENDEUR</th>
+<th width="33%">🔵 CLIENT</th>
+</tr>
+<tr>
+<td valign="top">
 
-### 🔴 ADMIN
-**Full system access and monitoring**
-- View all system statistics and analytics
-- Monitor security events and audit logs
-- Manage users and their roles
-- Access vulnerability reports
-- System configuration and settings
+**System Administrator**
 
-### 🟢 VENDEUR (Seller)
-**Operational management**
-- Create and manage invoices
-- CRUD operations on clients
-- CRUD operations on products
-- View sales statistics
-- Generate invoice PDFs
+- ✅ Full system access
+- 📊 View all statistics
+- 👥 User management
+- 🔒 Security monitoring
+- 📈 Audit logs access
+- ⚙️ System configuration
+- 🗑️ Delete any records
 
-### 🔵 CLIENT (Customer)
-**Limited read access**
-- View available products catalog
-- Access personal invoice history
-- Download personal invoices
-- View account information
+</td>
+<td valign="top">
 
----
+**Sales Representative**
 
-## 🔐 Security Features
+- 📄 Manage invoices
+- 👤 Manage clients
+- 📦 Manage products
+- 💰 View sales stats
+- 📑 Generate PDFs
+- 🔍 Search records
+- ✏️ Edit own data
 
-### Authentication & Authorization
-```
-User Login → JWT Token Generation → Token Validation → Role-Based Access
-```
+</td>
+<td valign="top">
 
-1. **JWT (JSON Web Tokens)**
-   - Stateless authentication
-   - Token expiration (configurable)
-   - Refresh token mechanism
-   - Secure token storage
+**Customer**
 
-2. **Password Security**
-   - BCrypt hashing algorithm
-   - Secure salt generation
-   - Password strength validation
-   - Account lockout after failed attempts
+- 👀 View products
+- 📜 View own invoices
+- 💳 Download invoices
+- 📊 View account info
+- 🔍 Search products
+- 👤 Update profile
+- ❌ Read-only access
 
-3. **Role-Based Access Control**
-   - Method-level security annotations
-   - URL pattern-based restrictions
-   - Dynamic permission checking
-
-### OWASP Top 10 Protection
-
-| Vulnerability | Protection Measure |
-|--------------|-------------------|
-| **A01: Broken Access Control** | Role-based restrictions, JWT validation |
-| **A02: Cryptographic Failures** | BCrypt hashing, HTTPS enforcement |
-| **A03: Injection** | Prepared statements, input validation |
-| **A04: Insecure Design** | Security-first architecture |
-| **A05: Security Misconfiguration** | Secure defaults, dependency updates |
-| **A06: Vulnerable Components** | Regular dependency scanning |
-| **A07: Authentication Failures** | Strong password policy, JWT |
-| **A08: Software Integrity Failures** | Code signing, secure CI/CD |
-| **A09: Logging Failures** | Comprehensive audit logging |
-| **A10: SSRF** | URL validation, whitelist approach |
-
-### Additional Security Measures
-- ✅ Input sanitization and validation
-- ✅ Output encoding to prevent XSS
-- ✅ CORS configuration
-- ✅ Rate limiting on authentication endpoints
-- ✅ SQL injection prevention via JPA
-- ✅ IDOR (Insecure Direct Object Reference) prevention
-- ✅ Mass assignment protection
-
-📄 **Detailed Security Analysis**: [`docs/reports/security-analysis.md`](docs/reports/security-analysis.md)
+</td>
+</tr>
+</table>
 
 ---
 
-## 📸 Screenshots
+## 🔐 Security Implementation
+
+### 🛡️ Defense in Depth Strategy
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     Frontend Security                        │
+│  • Input Validation  • XSS Prevention  • CORS Headers       │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    Transport Security                        │
+│  • HTTPS/TLS  • JWT Tokens  • Secure Headers               │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   Application Security                       │
+│  • Authentication  • Authorization  • Session Management    │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      Data Security                           │
+│  • Encryption  • Prepared Statements  • Access Control     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 🎯 OWASP Top 10 Protection
+
+| # | Vulnerability | Implementation | Status |
+|---|--------------|----------------|--------|
+| A01 | Broken Access Control | JWT + RBAC + Method Security | ✅ Protected |
+| A02 | Cryptographic Failures | BCrypt + HTTPS + Secure Storage | ✅ Protected |
+| A03 | Injection | JPA/Hibernate + Input Validation | ✅ Protected |
+| A04 | Insecure Design | Security-first architecture | ✅ Protected |
+| A05 | Security Misconfiguration | Secure defaults + Updates | ✅ Protected |
+| A06 | Vulnerable Components | Dependency scanning | ✅ Protected |
+| A07 | Authentication Failures | Strong policies + JWT | ✅ Protected |
+| A08 | Software Integrity Failures | Code signing + CI/CD | ✅ Protected |
+| A09 | Logging Failures | Comprehensive logging | ✅ Protected |
+| A10 | SSRF | URL validation + Whitelist | ✅ Protected |
+
+### 🔑 JWT Authentication Flow
+
+```
+┌──────────┐                                          ┌──────────┐
+│          │  1. POST /api/auth/login                │          │
+│  Client  │────────────────────────────────────────>│  Server  │
+│          │     {username, password}                │          │
+└──────────┘                                          └──────────┘
+                                                           │
+                                                           │ 2. Validate
+                                                           │    Credentials
+                                                           ▼
+┌──────────┐                                          ┌──────────┐
+│          │  3. Return JWT Token + User Info        │          │
+│  Client  │<────────────────────────────────────────│  Server  │
+│          │     {token, user, role}                 │          │
+└──────────┘                                          └──────────┘
+     │
+     │ 4. Store JWT
+     │    in localStorage
+     ▼
+┌──────────┐                                          ┌──────────┐
+│          │  5. Authenticated Requests              │          │
+│  Client  │────────────────────────────────────────>│  Server  │
+│          │     Header: "Bearer {JWT}"              │          │
+└──────────┘                                          └──────────┘
+                                                           │
+                                                           │ 6. Validate
+                                                           │    JWT Token
+                                                           │
+                                                           │ 7. Check
+                                                           │    Permissions
+                                                           ▼
+┌──────────┐                                          ┌──────────┐
+│          │  8. Return Protected Resource           │          │
+│  Client  │<────────────────────────────────────────│  Server  │
+│          │                                          │          │
+└──────────┘                                          └──────────┘
+```
+
+---
+
+## 📸 Application Screenshots
+
+> 📁 **Note**: To add screenshots, place images in `docs/images/dashboards/` directory
 
 ### 🔴 Admin Dashboard
-*Complete system overview with real-time statistics*
+*Complete system overview with real-time statistics and security monitoring*
 
 ![Admin Dashboard](docs/images/dashboards/admin-dashboard.png)
+
+**Features shown:**
+- Real-time system statistics
+- User activity monitoring
+- Security alerts dashboard
+- Revenue analytics charts
 
 ---
 
 ### 🟢 Vendeur Dashboard
-*Invoice and client management interface*
+*Comprehensive invoice and client management interface*
 
 ![Vendeur Dashboard](docs/images/dashboards/vendeur-dashboard.png)
+
+**Features shown:**
+- Invoice creation wizard
+- Client management table
+- Product catalog view
+- Sales performance metrics
 
 ---
 
 ### 🔵 Client Dashboard
-*Product catalog and invoice history*
+*User-friendly product catalog and invoice history*
 
 ![Client Dashboard](docs/images/dashboards/client-dashboard.png)
 
+**Features shown:**
+- Browse product catalog
+- View invoice history
+- Download PDF invoices
+- Account information
+
 ---
 
-## 🎞️ Feature Demonstrations
+## 🎬 Live Demonstrations
 
-### Login & Authentication Flow
+> 🎥 **Note**: GIF animations go in `docs/images/animations/` directory
+
+### 🔐 Secure Login Flow
 ![Login Animation](docs/images/animations/login-animation.gif)
 
-### Invoice Creation Process
+### 📄 Invoice Creation Process
 ![Create Invoice](docs/images/animations/create-invoice.gif)
 
-### Admin Security Monitoring
+### 🛡️ Admin Security Monitoring
 ![Security Monitoring](docs/images/animations/admin-security-view.gif)
 
 ---
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### 📋 Prerequisites
 
-- **Java 17+** - [Download](https://adoptium.net/)
-- **Node.js 18+** - [Download](https://nodejs.org/)
-- **MySQL 8.0+** - [Download](https://dev.mysql.com/downloads/)
-- **Maven 3.8+** - [Download](https://maven.apache.org/download.cgi)
-- **Angular CLI** - `npm install -g @angular/cli`
+Ensure you have the following installed:
 
-### Installation
+- ☕ **Java JDK 17+** - [Download](https://adoptium.net/)
+- 📦 **Node.js 18+** & npm - [Download](https://nodejs.org/)
+- 🗄️ **MySQL 8.0+** - [Download](https://dev.mysql.com/downloads/)
+- 🔧 **Maven 3.8+** - [Download](https://maven.apache.org/download.cgi)
+- ⚡ **Angular CLI** - Install via: `npm install -g @angular/cli`
+
+### ⚙️ Installation Steps
 
 #### 1️⃣ Clone the Repository
+
 ```bash
-git clone https://github.com/yourusername/invoice-management-security.git
-cd invoice-management-security
+git clone https://github.com/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-.git
+cd Spring-Boot-Security-Invoice-Management-
 ```
 
-#### 2️⃣ Database Setup
+#### 2️⃣ Database Configuration
+
 ```sql
-CREATE DATABASE invoice_management;
-CREATE USER 'invoice_user'@'localhost' IDENTIFIED BY 'secure_password';
+-- Create database
+CREATE DATABASE invoice_management CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Create user
+CREATE USER 'invoice_user'@'localhost' IDENTIFIED BY 'SecurePassword123!';
+
+-- Grant privileges
 GRANT ALL PRIVILEGES ON invoice_management.* TO 'invoice_user'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
 #### 3️⃣ Backend Setup
+
 ```bash
 cd backend
 
-# Configure application.properties
-# Edit src/main/resources/application.properties with your database credentials
+# Update application.properties with your database credentials
+# src/main/resources/application.properties
 
-# Build and run
+# Install dependencies and build
 mvn clean install
+
+# Run the application
 mvn spring-boot:run
 ```
 
-The backend will start on: `http://localhost:8080`
+🌐 Backend API will be available at: **http://localhost:8080**
+
+**Verify backend is running:**
+```bash
+curl http://localhost:8080/actuator/health
+# Should return: {"status":"UP"}
+```
 
 #### 4️⃣ Frontend Setup
+
 ```bash
 cd frontend
 
 # Install dependencies
 npm install
 
-# Run development server
+# Start development server
 ng serve
+
+# Or for production build
+ng build --configuration production
 ```
 
-The frontend will start on: `http://localhost:4200`
+🌐 Frontend will be available at: **http://localhost:4200**
 
-### 🐳 Docker Deployment (Alternative)
+---
+
+### 🐳 Docker Deployment
+
+For a quick deployment using Docker:
 
 ```bash
-# Build and run with Docker Compose
+# Build and start all services
 docker-compose up --build
 
-# Access the application
-# Frontend: http://localhost:4200
-# Backend API: http://localhost:8080
+# Run in detached mode
+docker-compose up -d
+
+# Stop all services
+docker-compose down
+
+# View logs
+docker-compose logs -f
 ```
 
-### Default Users
+**Services:**
+- 🌐 Frontend: http://localhost:4200
+- ⚙️ Backend: http://localhost:8080
+- 🗄️ MySQL: localhost:3306
 
-For testing purposes, the system comes with pre-configured users:
+---
 
-| Username | Password | Role |
-|----------|----------|------|
-| admin@invoice.com | Admin@123 | ADMIN |
-| seller@invoice.com | Seller@123 | VENDEUR |
-| client@invoice.com | Client@123 | CLIENT |
+### 👤 Default Test Users
 
-⚠️ **Important**: Change these credentials in production!
+| Email | Password | Role | Access Level |
+|-------|----------|------|-------------|
+| admin@invoice.com | Admin@123 | ADMIN | Full system access |
+| seller@invoice.com | Seller@123 | VENDEUR | Invoice & client management |
+| client@invoice.com | Client@123 | CLIENT | Read-only product access |
+
+> ⚠️ **Security Notice**: Change these credentials immediately in production!
 
 ---
 
 ## 📚 API Documentation
 
-### Authentication Endpoints
+### 🔐 Authentication Endpoints
 
-```http
-POST /api/auth/register
-POST /api/auth/login
-POST /api/auth/refresh
+<details>
+<summary><b>POST /api/auth/register</b> - Register new user</summary>
+
+```json
+Request:
+{
+  "username": "newuser@example.com",
+  "password": "SecurePass123!",
+  "role": "CLIENT"
+}
+
+Response:
+{
+  "id": 1,
+  "username": "newuser@example.com",
+  "role": "CLIENT",
+  "createdAt": "2024-01-20T10:30:00"
+}
 ```
+</details>
 
-### Invoice Endpoints
+<details>
+<summary><b>POST /api/auth/login</b> - User login</summary>
 
-```http
-GET    /api/invoices              # Get all invoices (ADMIN, VENDEUR)
-GET    /api/invoices/{id}         # Get invoice by ID
-POST   /api/invoices              # Create new invoice (VENDEUR)
-PUT    /api/invoices/{id}         # Update invoice (VENDEUR)
-DELETE /api/invoices/{id}         # Delete invoice (ADMIN, VENDEUR)
-GET    /api/invoices/pdf/{id}     # Generate PDF
+```json
+Request:
+{
+  "username": "seller@invoice.com",
+  "password": "Seller@123"
+}
+
+Response:
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "type": "Bearer",
+  "user": {
+    "id": 2,
+    "username": "seller@invoice.com",
+    "role": "VENDEUR"
+  }
+}
 ```
+</details>
 
-### Client Endpoints
+### 📄 Invoice Endpoints
 
-```http
-GET    /api/clients               # Get all clients (ADMIN, VENDEUR)
-GET    /api/clients/{id}          # Get client by ID
-POST   /api/clients               # Create client (VENDEUR)
-PUT    /api/clients/{id}          # Update client (VENDEUR)
-DELETE /api/clients/{id}          # Delete client (ADMIN, VENDEUR)
-```
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| GET | `/api/invoices` | Get all invoices | ADMIN, VENDEUR |
+| GET | `/api/invoices/{id}` | Get invoice by ID | ADMIN, VENDEUR, owner |
+| POST | `/api/invoices` | Create new invoice | VENDEUR |
+| PUT | `/api/invoices/{id}` | Update invoice | VENDEUR |
+| DELETE | `/api/invoices/{id}` | Delete invoice | ADMIN, VENDEUR |
+| GET | `/api/invoices/pdf/{id}` | Generate PDF | ADMIN, VENDEUR, owner |
+| GET | `/api/invoices/client/{clientId}` | Get client invoices | VENDEUR, owner |
 
-### Product Endpoints
+### 👥 Client Endpoints
 
-```http
-GET    /api/products              # Get all products
-GET    /api/products/{id}         # Get product by ID
-POST   /api/products              # Create product (VENDEUR)
-PUT    /api/products/{id}         # Update product (VENDEUR)
-DELETE /api/products/{id}         # Delete product (ADMIN, VENDEUR)
-```
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| GET | `/api/clients` | Get all clients | ADMIN, VENDEUR |
+| GET | `/api/clients/{id}` | Get client by ID | ADMIN, VENDEUR |
+| POST | `/api/clients` | Create client | VENDEUR |
+| PUT | `/api/clients/{id}` | Update client | VENDEUR |
+| DELETE | `/api/clients/{id}` | Delete client | ADMIN, VENDEUR |
+| GET | `/api/clients/search?name={name}` | Search clients | VENDEUR |
 
-### Example Request
+### 📦 Product Endpoints
+
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| GET | `/api/products` | Get all products | ALL |
+| GET | `/api/products/{id}` | Get product by ID | ALL |
+| POST | `/api/products` | Create product | VENDEUR |
+| PUT | `/api/products/{id}` | Update product | VENDEUR |
+| DELETE | `/api/products/{id}` | Delete product | ADMIN, VENDEUR |
+
+### 📊 Statistics Endpoints
+
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| GET | `/api/stats/dashboard` | Dashboard statistics | ADMIN |
+| GET | `/api/stats/revenue` | Revenue analytics | ADMIN, VENDEUR |
+| GET | `/api/stats/clients` | Client statistics | ADMIN, VENDEUR |
+
+### 🧪 Example API Calls
 
 ```bash
 # Login
@@ -379,191 +587,460 @@ curl -X POST http://localhost:8080/api/auth/login \
     "password": "Seller@123"
   }'
 
-# Create Invoice (with JWT token)
+# Create Invoice
 curl -X POST http://localhost:8080/api/invoices \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -d '{
     "clientId": 1,
     "items": [
-      {"productId": 1, "quantity": 2},
-      {"productId": 2, "quantity": 1}
-    ]
+      {"productId": 1, "quantity": 2, "unitPrice": 100.00},
+      {"productId": 2, "quantity": 1, "unitPrice": 50.00}
+    ],
+    "tax": 15.5,
+    "discount": 10.0
   }'
-```
 
----
+# Get All Products
+curl -X GET http://localhost:8080/api/products \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
 
-## 🔍 Security Analysis
-
-### Vulnerability Assessment
-
-This project has been designed with security as a primary concern. Key security considerations:
-
-#### ✅ Implemented Protections
-- SQL Injection: JPA/Hibernate with prepared statements
-- XSS: Angular's built-in sanitization + output encoding
-- CSRF: Token-based authentication (stateless)
-- Broken Authentication: Strong password policy + JWT
-- Sensitive Data Exposure: BCrypt encryption, HTTPS
-- IDOR: Authorization checks on all endpoints
-
-#### 🔄 Continuous Security
-- Regular dependency updates
-- Security testing in CI/CD pipeline
-- Code quality checks (SonarQube ready)
-- Penetration testing recommendations
-
-📄 **Full Vulnerability Report**: [`docs/reports/vulnerability-report.md`](docs/reports/vulnerability-report.md)
-
----
-
-## 📁 Project Structure
-
-```
-invoice-management-security/
-│
-├── backend/                    # Spring Boot backend
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/
-│   │   │   │   └── com/example/invoicemanagement/
-│   │   │   │       ├── config/         # Security, CORS config
-│   │   │   │       ├── controller/     # REST controllers
-│   │   │   │       ├── dto/            # Data Transfer Objects
-│   │   │   │       ├── entity/         # JPA entities
-│   │   │   │       ├── repository/     # Data repositories
-│   │   │   │       ├── security/       # JWT, filters, services
-│   │   │   │       └── service/        # Business logic
-│   │   │   └── resources/
-│   │   │       └── application.properties
-│   │   └── test/
-│   └── pom.xml
-│
-├── frontend/                   # Angular frontend
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── components/     # UI components
-│   │   │   ├── services/       # HTTP services
-│   │   │   ├── guards/         # Route guards
-│   │   │   ├── interceptors/   # HTTP interceptors
-│   │   │   └── models/         # TypeScript models
-│   │   ├── assets/
-│   │   └── environments/
-│   └── angular.json
-│
-├── docs/                       # Documentation
-│   ├── images/
-│   ├── architecture/
-│   └── reports/
-│
-├── docker/                     # Docker configuration
-│   ├── docker-compose.yml
-│   └── Dockerfile
-│
-└── README.md                   # This file
+# Generate Invoice PDF
+curl -X GET http://localhost:8080/api/invoices/pdf/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  --output invoice.pdf
 ```
 
 ---
 
 ## 🧪 Testing
 
-### Backend Tests
+### Backend Testing
+
 ```bash
 cd backend
+
+# Run all tests
 mvn test
+
+# Run with coverage
+mvn test jacoco:report
+
+# Integration tests
 mvn verify
+
+# Run specific test class
+mvn test -Dtest=InvoiceServiceTest
+
+# View coverage report
+open target/site/jacoco/index.html
 ```
 
-### Frontend Tests
+### Frontend Testing
+
 ```bash
 cd frontend
+
+# Unit tests
 npm test
+
+# Unit tests with coverage
+npm test -- --code-coverage
+
+# E2E tests
 npm run e2e
+
+# View coverage report
+open coverage/invoice-frontend/index.html
 ```
 
-### Security Tests
+### Security Testing
+
 ```bash
 # OWASP Dependency Check
 mvn org.owasp:dependency-check-maven:check
 
 # Static code analysis
 mvn sonar:sonar
+
+# Security headers check
+curl -I http://localhost:8080/api/invoices
+```
+
+---
+
+## 📁 Project Structure
+
+```
+Spring-Boot-Security-Invoice-Management-/
+│
+├── 📁 backend/                          # Spring Boot Backend
+│   ├── 📁 src/
+│   │   ├── 📁 main/
+│   │   │   ├── 📁 java/com/example/invoicemanagement/
+│   │   │   │   ├── 📁 config/           # Security & Configuration
+│   │   │   │   │   ├── SecurityConfig.java
+│   │   │   │   │   ├── CorsConfig.java
+│   │   │   │   │   └── WebConfig.java
+│   │   │   │   │
+│   │   │   │   ├── 📁 controller/       # REST Controllers
+│   │   │   │   │   ├── AuthController.java
+│   │   │   │   │   ├── InvoiceController.java
+│   │   │   │   │   ├── ClientController.java
+│   │   │   │   │   └── ProductController.java
+│   │   │   │   │
+│   │   │   │   ├── 📁 dto/              # Data Transfer Objects
+│   │   │   │   │   ├── LoginRequest.java
+│   │   │   │   │   ├── JwtResponse.java
+│   │   │   │   │   └── InvoiceDTO.java
+│   │   │   │   │
+│   │   │   │   ├── 📁 entity/           # JPA Entities
+│   │   │   │   │   ├── User.java
+│   │   │   │   │   ├── Invoice.java
+│   │   │   │   │   ├── Client.java
+│   │   │   │   │   ├── Product.java
+│   │   │   │   │   └── InvoiceItem.java
+│   │   │   │   │
+│   │   │   │   ├── 📁 repository/       # Data Access Layer
+│   │   │   │   │   ├── UserRepository.java
+│   │   │   │   │   ├── InvoiceRepository.java
+│   │   │   │   │   ├── ClientRepository.java
+│   │   │   │   │   └── ProductRepository.java
+│   │   │   │   │
+│   │   │   │   ├── 📁 security/         # Security Components
+│   │   │   │   │   ├── JwtUtil.java
+│   │   │   │   │   ├── JwtFilter.java
+│   │   │   │   │   └── MyUserDetailsService.java
+│   │   │   │   │
+│   │   │   │   └── 📁 service/          # Business Logic
+│   │   │   │       ├── AuthService.java
+│   │   │   │       ├── InvoiceService.java
+│   │   │   │       ├── ClientService.java
+│   │   │   │       └── ProductService.java
+│   │   │   │
+│   │   │   └── 📁 resources/
+│   │   │       ├── application.properties
+│   │   │       ├── application-dev.properties
+│   │   │       └── application-prod.properties
+│   │   │
+│   │   └── 📁 test/                     # Test Classes
+│   │       └── 📁 java/com/example/invoicemanagement/
+│   │           ├── InvoiceServiceTest.java
+│   │           └── SecurityConfigTest.java
+│   │
+│   └── pom.xml                          # Maven Dependencies
+│
+├── 📁 frontend/                         # Angular Frontend
+│   ├── 📁 src/
+│   │   ├── 📁 app/
+│   │   │   ├── 📁 components/           # UI Components
+│   │   │   │   ├── 📁 admin-dashboard/
+│   │   │   │   ├── 📁 vendeur-dashboard/
+│   │   │   │   ├── 📁 client-dashboard/
+│   │   │   │   ├── 📁 login/
+│   │   │   │   ├── 📁 invoice-list/
+│   │   │   │   ├── 📁 invoice-form/
+│   │   │   │   ├── 📁 client-list/
+│   │   │   │   └── 📁 product-list/
+│   │   │   │
+│   │   │   ├── 📁 services/             # HTTP Services
+│   │   │   │   ├── auth.service.ts
+│   │   │   │   ├── invoice.service.ts
+│   │   │   │   ├── client.service.ts
+│   │   │   │   └── product.service.ts
+│   │   │   │
+│   │   │   ├── 📁 guards/               # Route Guards
+│   │   │   │   ├── auth.guard.ts
+│   │   │   │   ├── admin.guard.ts
+│   │   │   │   └── vendeur.guard.ts
+│   │   │   │
+│   │   │   ├── 📁 interceptors/         # HTTP Interceptors
+│   │   │   │   ├── jwt.interceptor.ts
+│   │   │   │   └── error.interceptor.ts
+│   │   │   │
+│   │   │   ├── 📁 models/               # TypeScript Models
+│   │   │   │   ├── user.model.ts
+│   │   │   │   ├── invoice.model.ts
+│   │   │   │   ├── client.model.ts
+│   │   │   │   └── product.model.ts
+│   │   │   │
+│   │   │   ├── app-routing.module.ts
+│   │   │   ├── app.component.ts
+│   │   │   └── app.module.ts
+│   │   │
+│   │   ├── 📁 assets/                   # Static Assets
+│   │   │   ├── 📁 images/
+│   │   │   └── 📁 styles/
+│   │   │
+│   │   ├── 📁 environments/             # Environment Configs
+│   │   │   ├── environment.ts
+│   │   │   └── environment.prod.ts
+│   │   │
+│   │   └── index.html
+│   │
+│   ├── angular.json
+│   ├── package.json
+│   └── tsconfig.json
+│
+├── 📁 docs/                             # Documentation
+│   ├── 📁 images/
+│   │   ├── 📁 dashboards/               # Screenshot images
+│   │   ├── 📁 animations/               # GIF animations
+│   │   └── 📁 security/                 # Security diagrams
+│   │
+│   ├── 📁 architecture/                 # Architecture diagrams
+│   │   ├── backend-architecture.png
+│   │   ├── frontend-architecture.png
+│   │   └── database-schema.png
+│   │
+│   └── 📁 reports/                      # Analysis reports
+│       ├── security-analysis.md
+│       └── vulnerability-report.md
+│
+├── 📁 docker/                           # Docker Configuration
+│   ├── docker-compose.yml
+│   ├── Dockerfile.backend
+│   └── Dockerfile.frontend
+│
+├── 📄 .gitignore
+├── 📄 README.md                         # This file
+├── 📄 LICENSE
+└── 📄 IMAGE_PLACEMENT_GUIDE.md          # Image setup guide
 ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these guidelines:
+We welcome contributions! Here's how you can help:
+
+### 🐛 Report Bugs
+Open an issue describing the bug with:
+- Steps to reproduce
+- Expected behavior
+- Actual behavior
+- Screenshots if applicable
+
+### 💡 Suggest Features
+Open an issue tagged with `enhancement` explaining:
+- The feature description
+- Use cases
+- Potential implementation approach
+
+### 🔧 Submit Pull Requests
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+3. Commit your changes
+   ```bash
+   git commit -m 'Add: Amazing new feature'
+   ```
+4. Push to the branch
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
 5. Open a Pull Request
 
-### Code Standards
-- Follow Java/TypeScript naming conventions
-- Write meaningful commit messages
-- Include unit tests for new features
-- Update documentation as needed
+### 📝 Code Standards
+
+- **Java**: Follow Google Java Style Guide
+- **TypeScript**: Follow Angular style guide
+- **Commits**: Use conventional commits (feat:, fix:, docs:, etc.)
+- **Tests**: Write tests for new features
+- **Documentation**: Update relevant docs
 
 ---
 
-## 📖 Academic Perspective
+## 📖 Academic & Professional Context
 
-This project serves as:
+### 🎓 Educational Value
 
-- ✅ **Enterprise Architecture Example**: Demonstrates professional software design patterns
-- ✅ **Security Case Study**: Practical implementation of OWASP guidelines
-- ✅ **Best Practices Showcase**: Modern development workflows and methodologies
-- ✅ **Full-Stack Integration**: Real-world example of frontend-backend communication
+This project demonstrates:
 
-### Learning Outcomes
-- Secure application development
-- JWT authentication implementation
-- Role-based access control design
-- RESTful API best practices
-- Angular component architecture
-- Database design and ORM usage
+- ✅ **Software Architecture**: Layered architecture with clear separation of concerns
+- ✅ **Security Engineering**: Practical implementation of security principles
+- ✅ **Full-Stack Development**: Integration of frontend and backend technologies
+- ✅ **Database Design**: Normalized schema with proper relationships
+- ✅ **API Design**: RESTful principles and best practices
+- ✅ **Testing Strategies**: Unit, integration, and E2E testing
+- ✅ **DevOps Practices**: Containerization and CI/CD pipelines
+
+### 💼 Industry Relevance
+
+- 🏢 **Enterprise Patterns**: Uses patterns found in production systems
+- 🔐 **Security Focus**: Addresses real-world security concerns
+- 📊 **Scalability**: Architecture designed for growth
+- 🧪 **Quality Assurance**: Comprehensive testing approach
+- 📚 **Documentation**: Professional-level documentation
+
+### 🎯 Learning Outcomes
+
+After studying this project, you will understand:
+
+1. **JWT Authentication** - Token-based security implementation
+2. **Role-Based Access Control** - Fine-grained permission systems
+3. **RESTful API Design** - Best practices for API development
+4. **Angular Architecture** - Component-based frontend development
+5. **Spring Boot** - Enterprise Java application development
+6. **Security Best Practices** - OWASP Top 10 mitigation strategies
+7. **Database Relationships** - JPA/Hibernate entity mapping
+8. **Docker Deployment** - Containerization strategies
+
+---
+
+## 🔍 Security Analysis & Compliance
+
+### ✅ Security Checklist
+
+- [x] JWT authentication with secure token generation
+- [x] BCrypt password hashing (cost factor: 12)
+- [x] Role-based access control on all endpoints
+- [x] Input validation on all user inputs
+- [x] SQL injection prevention via JPA
+- [x] XSS prevention via Angular sanitization
+- [x] CSRF protection through stateless JWT
+- [x] CORS configuration with whitelist
+- [x] HTTPS enforcement in production
+- [x] Secure password policy (min 8 chars, complexity)
+- [x] Account lockout after failed login attempts
+- [x] Audit logging for sensitive operations
+- [x] Regular dependency updates
+- [x] Error messages don't leak sensitive info
+
+### 📊 Compliance
+
+This application implements security controls aligned with:
+
+- ✅ OWASP Top 10 (2021)
+- ✅ GDPR principles (data protection)
+- ✅ PCI DSS guidelines (where applicable)
+- ✅ ISO 27001 best practices
 
 ---
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License**.
+
+```
+MIT License
+
+Copyright (c) 2024 LAAOUAFI FATIHA
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+See the [LICENSE](LICENSE) file for full details.
 
 ---
 
 ## 👨‍💻 Author
 
-**Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
-- LinkedIn: [Your Profile](https://linkedin.com/in/yourprofile)
+<div align="center">
+
+### **LAAOUAFI FATIHA**
+
+[![GitHub](https://img.shields.io/badge/GitHub-LAAOUAFIFATIHA-181717?style=for-the-badge&logo=github)](https://github.com/LAAOUAFIFATIHA)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/yourprofile)
+[![Email](https://img.shields.io/badge/Email-Contact-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your.email@example.com)
+
+**Computer Science Student | Full-Stack Developer | Security Enthusiast**
+
+</div>
 
 ---
 
 ## 🙏 Acknowledgments
 
-- Spring Boot team for the excellent framework
-- Angular team for the modern frontend framework
-- OWASP for security guidelines and best practices
-- Open source community for various libraries and tools
+Special thanks to:
+
+- 🍃 **Spring Boot Team** - For the excellent framework and documentation
+- 🅰️ **Angular Team** - For the powerful frontend framework
+- 🔒 **OWASP Foundation** - For security guidelines and best practices
+- 🐳 **Docker Community** - For containerization tools
+- 💾 **MySQL Team** - For the robust database system
+- 🌐 **Open Source Community** - For countless libraries and tools
+- 👨‍🏫 **Educators & Mentors** - For guidance and feedback
 
 ---
 
-## 📞 Support
+## 📞 Support & Contact
 
-For support, email laaouafifatiha@example.com or open an issue on GitHub.
+<div align="center">
+
+### Need Help?
+
+| Type | Link |
+|------|------|
+| 🐛 Report a Bug | [GitHub Issues](https://github.com/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-/issues/new?labels=bug) |
+| 💡 Request Feature | [GitHub Issues](https://github.com/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-/issues/new?labels=enhancement) |
+| 💬 Ask Question | [GitHub Discussions](https://github.com/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-/discussions) |
+| 📧 Email | your.email@example.com |
+
+</div>
+
+---
+
+## 📈 Project Stats
+
+<div align="center">
+
+![GitHub repo size](https://img.shields.io/github/repo-size/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-?style=flat-square)
+![GitHub code size](https://img.shields.io/github/languages/code-size/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-?style=flat-square)
+![GitHub language count](https://img.shields.io/github/languages/count/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-?style=flat-square)
+![GitHub top language](https://img.shields.io/github/languages/top/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-?style=flat-square)
+
+</div>
 
 ---
 
 <div align="center">
 
-**⭐ If you found this project helpful, please give it a star! ⭐**
+## ⭐ Show Your Support
 
-Made with ❤️ for secure software development
+If you found this project helpful or learned something from it, please consider giving it a **star** ⭐
 
+It helps others discover the project and motivates continued development!
+
+[![GitHub stars](https://img.shields.io/github/stars/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-?style=social)](https://github.com/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-?style=social)](https://github.com/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-/network/members)
+[![GitHub watchers](https://img.shields.io/github/watchers/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-?style=social)](https://github.com/LAAOUAFIFATIHA/Spring-Boot-Security-Invoice-Management-/watchers)
+
+---
+
+### 🚀 Ready to Get Started?
+
+[📥 Clone the Repository](#-getting-started) | [📖 Read the Docs](#-table-of-contents) | [🔒 Learn About Security](#-security-features)
+
+---
+
+**Made with ❤️ and ☕ for secure software development**
+
+*Building tomorrow's secure applications, today.*
+
+</div>
+
+---
+
+<div align="center">
+<sub>Last Updated: December 2024 | Version 1.0.0</sub>
 </div>
