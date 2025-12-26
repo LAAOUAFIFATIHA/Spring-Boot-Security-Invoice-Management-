@@ -1,5 +1,7 @@
 # 🔐 Secure Invoice Management System
 
+<img src="img/home.png" alt="home page ">
+
 <div align="center">
 
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-brightgreen.svg?style=for-the-badge&logo=spring)](https://spring.io/projects/spring-boot)
@@ -1044,4 +1046,5 @@ It helps others discover the project and motivates continued development!
 <div align="center">
 <sub>Last Updated: December 2024 | Version 1.0.0</sub>
 </div>
+
 
