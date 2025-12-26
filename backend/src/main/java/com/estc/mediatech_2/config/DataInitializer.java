@@ -53,7 +53,7 @@ public class DataInitializer {
         UserEntity user = userDao.findByUsername(username).orElse(new UserEntity());
         user.setUsername(username);
 
-        // ============ LOGS DES HASHs ============
+        // ============ LOGS DES HASHs ============ EEREUR
         log.info("   🔓 Mot de passe PLAIN pour {} : {}", username, password);
 
         String encodedPassword = passwordEncoder.encode(password);
@@ -62,7 +62,7 @@ public class DataInitializer {
 
         // Vérifie le format BCrypt
         if (!encodedPassword.startsWith("$2a$")) {
-            log.error("   ❌ ERREUR : Hash ne commence pas par $2a$ !");
+            log.error("   ERREUR : Hash ne commence pas par $2a$ !");
         }
         // ============ FIN DES LOGS ============
 
@@ -71,7 +71,7 @@ public class DataInitializer {
         user.setEnabled(true);
 
         UserEntity saved = userDao.save(user);
-        log.info("   ✅ Utilisateur {} sauvegardé en base", username);
+        log.info("  Utilisateur {} sauvegardé en base", username);
 
         return saved;
     }
