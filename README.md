@@ -1,6 +1,6 @@
 # 🔐 Secure Invoice Management System
 
-<img src="img/home.png" alt="home page ">
+
 
 <div align="center">
 
@@ -15,7 +15,10 @@
 
 [Features](#-key-features) • [Demo](#-screenshots) • [Installation](#-getting-started) • [Documentation](#-api-documentation) • [Security](#-security-features)
 
+
 </div>
+
+<img src="img/home.png" alt="home page ">
 
 ---
 
@@ -1046,5 +1049,6 @@ It helps others discover the project and motivates continued development!
 <div align="center">
 <sub>Last Updated: December 2024 | Version 1.0.0</sub>
 </div>
+
 
 
