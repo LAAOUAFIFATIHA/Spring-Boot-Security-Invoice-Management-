@@ -1,6 +1,6 @@
 # 🔐 Secure Invoice Management System
 
-
+ 
 
 <div align="center">
 
@@ -1034,6 +1034,7 @@ It helps others discover the project and motivates continued development!
 <div align="center">
 <sub>Last Updated: December 2024 | Version 1.0.0</sub>
 </div>
+
 
 
 
